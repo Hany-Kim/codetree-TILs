@@ -43,7 +43,7 @@ void input() {
     cin >> N >> M >> P >> C >> D;
     cin >> rudolph.y >> rudolph.x;
     map[rudolph.y][rudolph.x] = -1; // 루돌프 맵상 -1로 표시
-    for (register int i = 1; i <= P; ++i) {
+    for (int i = 1; i <= P; ++i) {
         int num = 0;
         cin >> num;
         cin >> santa[num].y >> santa[num].x;
