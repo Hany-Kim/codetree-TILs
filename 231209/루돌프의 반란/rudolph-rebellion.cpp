@@ -123,7 +123,7 @@ void bfs_rudolph_to_santa() {
     }
 
     queue<POINT> q;
-    priority_queue<pair<POINT, int>> pq; // 좌표, 거리
+    //priority_queue<pair<POINT, int>> pq; // 좌표, 거리
     vector<pair<pair<POINT, int>,int>> v; // 좌표, 거리
 
     q.push(rudolph);
@@ -142,7 +142,7 @@ void bfs_rudolph_to_santa() {
             if (used[ny][nx] < (used[now.y][now.x] + 1)) continue;
             used[ny][nx] = used[now.y][now.x] + 1;
             if ((map[ny][nx] > 0) && (santa[map[ny][nx]].isLive == true)) { // 산타와 만났다.
-                pq.push({ {ny,nx},used[ny][nx] });
+                //pq.push({ {ny,nx},used[ny][nx] });
                 v.push_back({ { {ny,nx},used[ny][nx] }, get_dist(rudolph.y, rudolph.x, ny, nx)});
             }
 
