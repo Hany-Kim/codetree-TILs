@@ -115,19 +115,21 @@ bool cmp(pair<pair<POINT, int>, int> left, pair<pair<POINT, int>, int> right) {
 }
 
 void bfs_rudolph_to_santa() {
+    int visit[51][51] = { 0, };
     int used[51][51] = { 0, };
-    for (int y = 1; y <= N; ++y) {
+    /*for (int y = 1; y <= N; ++y) {
         for (int x = 1; x <= N; ++x) {
             used[y][x] = DUMMY;
         }
-    }
+    }*/
 
     queue<POINT> q;
     //priority_queue<pair<POINT, int>> pq; // 좌표, 거리
-    vector<pair<pair<POINT, int>,int>> v; // 좌표, 거리
+    vector<pair<pair<POINT, int>, int>> v; // 좌표, 거리
 
     q.push(rudolph);
     used[rudolph.y][rudolph.x] = 0;
+    visit[rudolph.y][rudolph.x] = 1;
 
     while (!q.empty()) {
         POINT now = q.front();
@@ -138,12 +140,12 @@ void bfs_rudolph_to_santa() {
             int nx = now.x + dx[i];
 
             if (ny < 1 || ny > N || nx < 1 || nx > N) continue;
-
-            if (used[ny][nx] < (used[now.y][now.x] + 1)) continue;
+            if (used[ny][nx] != 0) continue;
+            //if (used[ny][nx] < (used[now.y][now.x] + 1)) continue;
             used[ny][nx] = used[now.y][now.x] + 1;
             if ((map[ny][nx] > 0) && (santa[map[ny][nx]].isLive == true)) { // 산타와 만났다.
                 //pq.push({ {ny,nx},used[ny][nx] });
-                v.push_back({ { {ny,nx},used[ny][nx] }, get_dist(rudolph.y, rudolph.x, ny, nx)});
+                v.push_back({ { {ny,nx},used[ny][nx] }, get_dist(rudolph.y, rudolph.x, ny, nx) });
             }
 
             q.push({ ny,nx });
@@ -156,7 +158,7 @@ void bfs_rudolph_to_santa() {
     POINT next = { 0,0 }; // 루돌프가 이동할 위치
     int min_dist = DUMMY;
     int direct_num = 0;
-    for (int i = 0; i < 8; ++i) { 
+    for (int i = 0; i < 8; ++i) {
         int ny = rudolph.y + dy[i];
         int nx = rudolph.x + dx[i];
 
@@ -175,7 +177,7 @@ void bfs_rudolph_to_santa() {
     if (map[next.y][next.x] > 0) { // 루 -> 산 충돌
         int num = map[next.y][next.x];
         santa[num].score += C;
-        
+
         int ny = santa[num].y + (dy[direct_num] * C);
         int nx = santa[num].x + (dx[direct_num] * C);
         if (ny < 1 || ny > N || nx < 1 || nx > N) {
@@ -231,7 +233,7 @@ void santa_to_rudolph(int num) {
     if ((rudolph.y == next.y) && (rudolph.x == next.x)) { // 산 -> 루 충돌
         // 충돌
         santa[num].score += D;
-            
+
         if (direct_num == 0) direct_num = 2;
         else if (direct_num == 2) direct_num = 0;
         else if (direct_num == 1) direct_num = 3;
@@ -257,7 +259,7 @@ void santa_to_rudolph(int num) {
         santa[num].isSleep = cur_turn + 2;
     }
     else if ((map[next.y][next.x] > 0) && (map[next.y][next.x] != num)) { // 다른 산타만나면 무시
-        
+
     }
     else {
         map[santa[num].y][santa[num].x] = 0;
