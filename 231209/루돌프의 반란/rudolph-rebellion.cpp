@@ -102,8 +102,8 @@ bool cmp(pair<pair<POINT, int>, int> left, pair<pair<POINT, int>, int> right) {
     if (left.second > right.second) return false;
     if (left.second < right.second) return true;
 
-    if (left.first.second > right.first.second) return false;
-    if (left.first.second < right.first.second) return true;
+    //if (left.first.second > right.first.second) return false;
+    //if (left.first.second < right.first.second) return true;
 
     if (left.first.first.y > right.first.first.y) return true;
     if (left.first.first.y < right.first.first.y) return false;
