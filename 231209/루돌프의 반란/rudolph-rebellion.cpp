@@ -25,6 +25,7 @@ int map[51][51];
 int dy[8] = { -1,0,1,0,-1,-1,1,1 };
 int dx[8] = { 0,1,0,-1,-1,1,-1,1 };
 int cur_turn;
+bool end_flag;
 
 void omap() {
     for (int i = 1; i <= P; ++i) {
@@ -263,14 +264,23 @@ void move_santa() {
     }
 }
 
+bool isEndGame() {
+    for (int i = 1; i <= P; ++i) {
+        if (santa[i].isLive == true) return false;
+    }
+    return true;
+}
+
 void move() {
     //cout << "[루돌프 이동]\n";
     move_rudolph();
+    if (isEndGame()) end_flag = true;
     //omap();
     //cout << "[산타 이동]\n";
     move_santa();
     //omap();
-    int de = 1;
+    if (isEndGame()) end_flag = true;
+    //int de = 1;
 }
 
 void add_score() {
@@ -295,6 +305,7 @@ int main() {
         cur_turn = i;
         //cout << "현재 턴 : " << i << "\n";
         move();
+        if (end_flag) break;
         add_score();
         //cout << "생존 산타 +1\n";
         //output();
