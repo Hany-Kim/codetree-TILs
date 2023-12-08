@@ -2,6 +2,7 @@
 #include <cmath>
 #include <queue>
 #include <cstring>
+#include <algorithm>
 
 using namespace std;
 #define DUMMY 213456789
@@ -97,6 +98,22 @@ void interaction(int y, int x, int direct_num, int times) {
     return;
 }
 
+bool cmp(pair<pair<POINT, int>, int> left, pair<pair<POINT, int>, int> right) {
+    if (left.second > right.second) return false;
+    if (left.second < right.second) return true;
+
+    if (left.first.second > right.first.second) return false;
+    if (left.first.second < right.first.second) return true;
+
+    if (left.first.first.y > right.first.first.y) return true;
+    if (left.first.first.y < right.first.first.y) return false;
+
+    if (left.first.first.x > right.first.first.x) return true;
+    if (left.first.first.x < right.first.first.x) return false;
+
+    return false;
+}
+
 void bfs_rudolph_to_santa() {
     int used[51][51] = { 0, };
     for (int y = 1; y <= N; ++y) {
@@ -107,6 +124,7 @@ void bfs_rudolph_to_santa() {
 
     queue<POINT> q;
     priority_queue<pair<POINT, int>> pq; // 좌표, 거리
+    vector<pair<pair<POINT, int>,int>> v; // 좌표, 거리
 
     q.push(rudolph);
     used[rudolph.y][rudolph.x] = 0;
@@ -125,13 +143,16 @@ void bfs_rudolph_to_santa() {
             used[ny][nx] = used[now.y][now.x] + 1;
             if ((map[ny][nx] > 0) && (santa[map[ny][nx]].isLive == true)) { // 산타와 만났다.
                 pq.push({ {ny,nx},used[ny][nx] });
+                v.push_back({ { {ny,nx},used[ny][nx] }, get_dist(rudolph.y, rudolph.x, ny, nx)});
             }
 
             q.push({ ny,nx });
         }
     }
 
-    POINT goal = pq.top().first; // 루돌프가 이동할 가장 가까운 산타위치
+    sort(v.begin(), v.end(), cmp);
+    //POINT goal = pq.top().first; // 루돌프가 이동할 가장 가까운 산타위치
+    POINT goal = v[0].first.first; // 루돌프가 이동할 가장 가까운 산타위치
     POINT next = { 0,0 }; // 루돌프가 이동할 위치
     int min_dist = DUMMY;
     int direct_num = 0;
