@@ -2,9 +2,9 @@
 using namespace std;
 
 int n;
-int arr[10][10];
-int dpx[11][11];
-int dpy[11][11];
+int arr[11][11];
+int dpx[12][12];
+int dpy[12][12];
 
 int main() {
     cin >> n;
