@@ -15,9 +15,9 @@ int main() {
         }
     }
 
-    dpx[0][0] = arr[0][0];
-    dpx[1][0] = arr[1][0];
-    dpx[2][0] = arr[2][0];
+    for (int y = 0; y < n; ++y) {
+        dpx[y][0] = arr[y][0];
+    }
 
     for (int y = 0; y < n; ++y) {
         for (int x = 0; x < n; ++x) {
@@ -25,9 +25,9 @@ int main() {
         }
     }
 
-    dpy[0][0] = arr[0][0];
-    dpy[0][1] = arr[0][1];
-    dpy[0][2] = arr[0][2];
+    for (int x = 0; x < n; ++x) {
+        dpy[0][x] = arr[0][x];
+    }
 
     for (int x = 0; x < n; ++x) {
         for (int y = 0; y < n; ++y) {
