@@ -241,7 +241,8 @@ int main() {
 			wall[y - 1][x] = 1;
 		}
 		else if (d == 1) {
-			wall[y][x + 1] = 1;
+			//wall[y][x + 1] = 1;
+			wall[y][x - 1] = 1;
 		}
 	}
 
