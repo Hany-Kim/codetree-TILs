@@ -196,7 +196,8 @@ void sol() {
 		decrease_outside_temper();
 		eat_chocolate();
 		if (chocolate > 100) {
-			chocolate = 101;
+			//chocolate = 101;
+			chocolate = -1;
 			break;
 		}
 	}
