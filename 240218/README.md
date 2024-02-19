@@ -3,11 +3,11 @@
 # 🥇 실전 훈련
 |총 문제 수|티어|유형|
 |---:|---|---|
-|1|![Gold3][g3] ~ ![Gold3][g3]|`BFS` `Simulation`|
+|1|![Gold3][g3] ~ ![Gold3][g3]|`Simulation` `BFS`|
 
 |기록분류|이름|티어|유형|상태|최근 제출 코드|
 |---|---|---|---|---|---|
-|기출문제|[왕실의 기사 대결](https://www.codetree.ai/training-field/frequent-problems/problems/royal-knight-duel)|![Gold3][g3]|`BFS` `Simulation`|![Failed][failed]|[링크](https://github.com/Hany-Kim/codetree-TILs/blob/main/240218/%EC%99%95%EC%8B%A4%EC%9D%98%20%EA%B8%B0%EC%82%AC%20%EB%8C%80%EA%B2%B0/royal-knight-duel.cpp)|
+|기출문제|[왕실의 기사 대결](https://www.codetree.ai/training-field/frequent-problems/problems/royal-knight-duel)|![Gold3][g3]|`BFS` `Simulation`|![Passed][passed]|[링크](https://github.com/Hany-Kim/codetree-TILs/blob/main/240218/%EC%99%95%EC%8B%A4%EC%9D%98%20%EA%B8%B0%EC%82%AC%20%EB%8C%80%EA%B2%B0/royal-knight-duel.cpp)|
 
 
 
