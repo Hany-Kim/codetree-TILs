@@ -121,7 +121,7 @@ int main() {
         if (queries[i].cmd == 100) // 초밥 추가
             sushi_num++;
         else if (queries[i].cmd == 111) // 초밥 제거
-            //sushi_num--;
+            sushi_num -= 2;
         else if (queries[i].cmd == 200) // 사람 추가
             people_num++;
         else if (queries[i].cmd == 222) // 사람 제거
