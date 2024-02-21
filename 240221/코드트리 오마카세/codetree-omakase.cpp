@@ -121,11 +121,11 @@ int main() {
         if (queries[i].cmd == 100) // 초밥 추가
             sushi_num++;
         else if (queries[i].cmd == 111) // 초밥 제거
-            sushi_num -= 2;
+            sushi_num -= 1;
         else if (queries[i].cmd == 200) // 사람 추가
             people_num++;
         else if (queries[i].cmd == 222) // 사람 제거
-            people_num--;
+            people_num -= 2;
         else // 사진 촬영시 답을 출력하면 됩니다.
             cout << people_num << " " << sushi_num << "\n";
     }
