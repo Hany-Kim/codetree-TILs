@@ -91,7 +91,9 @@ bool mcmp(CMD left, CMD right) {
 void sol() {
     //for (string now_name : visitting_customer_names) {
         //for(CMD sushis : create_sushi[now_name]) {// 생성된 초밥이 언제 없어질지 기록
-        FOR(i,0, commands.size()) {
+        FOR(i,0, commands.size()) {// 생성된 초밥이 언제 없어질지 기록
+            if (commands[i].cmd != 100) continue;
+            
             CMD sushis = commands[i];
             // 해당 손님(now_name)이 먹어야할 초밥
             /*
