@@ -89,8 +89,10 @@ bool mcmp(CMD left, CMD right) {
 }
 
 void sol() {
-    for (string now_name : visitting_customer_names) {
-        for(CMD sushis : create_sushi[now_name]) {// 생성된 초밥이 언제 없어질지 기록
+    //for (string now_name : visitting_customer_names) {
+        //for(CMD sushis : create_sushi[now_name]) {// 생성된 초밥이 언제 없어질지 기록
+        FOR(i,0, commands.size()) {
+            CMD sushis = commands[i];
             // 해당 손님(now_name)이 먹어야할 초밥
             /*
                 시간 초과 관리를 위해 초밥생성 관련 명령 분리
@@ -102,7 +104,8 @@ void sol() {
             int meet_sushi_cutomer_time = 0; // 초밥과 손님이 만나게 할 수 있는 보정 시간
             int eat_sushi_time = 0; //초밥을 먹는 시간
 
-            if (sushis.t < visit_customer_time[now_name]) { 
+            //if (sushis.t < visit_customer_time[now_name]) { 
+            if (sushis.t < visit_customer_time[sushis.name]) { 
                 /*
                     손님 입장전에 손님의 초밥이 벨트위에 있음
                 */
@@ -111,7 +114,8 @@ void sol() {
                 int now_sushi_position = sushis.x;
 
                 // 손님이 방문한 시점과 먹어야할 초밥이 들어온 시점의 차이
-                int diff_t = visit_customer_time[now_name] - sushis.t;
+                //int diff_t = visit_customer_time[now_name] - sushis.t;
+                int diff_t = visit_customer_time[sushis.name] - sushis.t;
 
 
                 // 손님이 입장했을때, 회전 초밥 위치 이동
@@ -120,25 +124,30 @@ void sol() {
                 // 손님이 들어올 시점에 초밥이 어디로 이동할지 구해줌
                 now_sushi_position = ((now_sushi_position + diff_t) % L);
 
-                if (sitting_position[now_name] >= now_sushi_position) {
+                //if (sitting_position[now_name] >= now_sushi_position) {
+                if (sitting_position[sushis.name] >= now_sushi_position) {
                     /*
                         손님이 초밥보다 시계방향으로 더 먼쪽에 앉아 있음
                     */
 
                     // 손님이 초밥을 먹기위해 걸리는 시간 = 손님이 앉은 자리 위치 - 현재 초밥 위치
-                    meet_sushi_cutomer_time = sitting_position[now_name] - now_sushi_position;
+                    //meet_sushi_cutomer_time = sitting_position[now_name] - now_sushi_position;
+                    meet_sushi_cutomer_time = sitting_position[sushis.name] - now_sushi_position;
                 }
-                else if (sitting_position[now_name] < now_sushi_position) {
+                //else if (sitting_position[now_name] < now_sushi_position) {
+                else if (sitting_position[sushis.name] < now_sushi_position) {
                     /*
                         손님이 초밥보다 반시계방향으로 더 먼쪽에 앉아 있음
                     */
 
                     // 손님이 초밥을 먹기위해 걸리는 시간 = (손님이 앉은 자리 위치 + 의자의 갯수(1싸이클)) - 현재 초밥 위치
-                    meet_sushi_cutomer_time = (sitting_position[now_name] + L) - now_sushi_position;
+                    //meet_sushi_cutomer_time = (sitting_position[now_name] + L) - now_sushi_position;
+                    meet_sushi_cutomer_time = (sitting_position[sushis.name] + L) - now_sushi_position;
                 }
 
                 // 손님을 초밥을 먹을 수 있는 시간 = 손님이 방문한 시간대 + 손님이 초밥을 먹기위해 걸리는 시간
-                eat_sushi_time = visit_customer_time[now_name] + meet_sushi_cutomer_time;
+                //eat_sushi_time = visit_customer_time[now_name] + meet_sushi_cutomer_time;
+                eat_sushi_time = visit_customer_time[sushis.name] + meet_sushi_cutomer_time;
             }
             else { 
                 /*
@@ -148,21 +157,25 @@ void sol() {
                 // 현재 초밥의 위치
                 int now_sushi_position = sushis.x;
 
-                if (sitting_position[now_name] >= now_sushi_position) {
+                //if (sitting_position[now_name] >= now_sushi_position) {
+                if (sitting_position[sushis.name] >= now_sushi_position) {
                     /*
                         손님이 초밥보다 시계방향으로 더 먼쪽에 앉아 있음
                     */
 
                     // 손님이 초밥을 먹기위해 걸리는 시간 = 손님이 앉은 자리 위치 - 현재 초밥 위치
-                    meet_sushi_cutomer_time = sitting_position[now_name] - now_sushi_position;
+                    //meet_sushi_cutomer_time = sitting_position[now_name] - now_sushi_position;
+                    meet_sushi_cutomer_time = sitting_position[sushis.name] - now_sushi_position;
                 }
-                else if (sitting_position[now_name] < now_sushi_position) {
+                //else if (sitting_position[now_name] < now_sushi_position) {
+                else if (sitting_position[sushis.name] < now_sushi_position) {
                     /*
                         손님이 초밥보다 반시계방향으로 더 먼쪽에 앉아 있음
                     */
 
                     // 손님이 초밥을 먹기위해 걸리는 시간 = (손님이 앉은 자리 위치 + 의자의 갯수(1싸이클)) - 현재 초밥 위치
-                    meet_sushi_cutomer_time = (sitting_position[now_name] + L) - now_sushi_position;
+                    //meet_sushi_cutomer_time = (sitting_position[now_name] + L) - now_sushi_position;
+                    meet_sushi_cutomer_time = (sitting_position[sushis.name] + L) - now_sushi_position;
                 }
 
                 // 손님을 초밥을 먹을 수 있는 시간 = 초밥이 들어온 시간 + 손님이 초밥을 먹기위해 걸리는 시간
@@ -174,11 +187,12 @@ void sol() {
             tmp.cmd = sushis.cmd + 1;
             tmp.t = eat_sushi_time;
             tmp.x = -1;
-            tmp.name = now_name;
+            //tmp.name = now_name;
+            tmp.name = sushis.name;
             tmp.n = -1;
             v.push_back(tmp);
         }
-    }
+    //}
 
     // 전체 명령과 초밥이 사라지는 시점에 대한 정보를 합침
     commands.insert(commands.end(), v.begin(), v.end());
