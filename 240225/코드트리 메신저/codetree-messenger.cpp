@@ -36,6 +36,8 @@ int notice_check(int num) {
     CHAT* now_chatting_room = &chatting_room_pool[num];
 
     int cnt = dfs(0, now_chatting_room);
+    cnt -= 1;
+
     return cnt;
 }
 
@@ -146,7 +148,6 @@ void sol() {
             cin >> num;
 
             int cnt = notice_check(num);
-            cnt -= 1; // 자기자신 빼기
             cout << cnt << '\n';
         }
     }
