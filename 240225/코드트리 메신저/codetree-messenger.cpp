@@ -1,5 +1,5 @@
 #include <iostream>
-
+#include <queue>
 using namespace std;
 
 #define FOR(i,s,e) for(int i=s; i<e; ++i)
@@ -32,12 +32,41 @@ int dfs(int depth, CHAT* now) {
     return cnt;
 }
 
+int bfs(CHAT* start) {
+    queue<pair<CHAT*,int>> q;
+    int used[N_MAX] = { 0, };
+    int cnt = 0;
+
+    q.push(make_pair(start,0));
+    used[start->chat_num] = 1;
+
+    while (!q.empty()) {
+        pair<CHAT*,int> now = q.front();
+        q.pop();
+
+        FOR(i, 0, 2) {
+            if (now.first->child[i] == nullptr) continue; // 자식이 없으면 패스
+            if (used[now.first->child[i]->chat_num] == 1) continue;
+            if (now.first->child[i]->notice == false) continue; // 스위치 OFF면 패스
+            if (now.first->child[i]->auth >= (now.second + 1)) {
+                cnt += 1;
+            }
+
+            used[now.first->child[i]->chat_num] = 1;
+            q.push(make_pair(now.first->child[i], now.second + 1));
+        }
+    }
+
+    return cnt;
+}
+
 int notice_check(int num) {
     CHAT* now_chatting_room = &chatting_room_pool[num];
 
-    int cnt = dfs(0, now_chatting_room);
-    cnt -= 1;
+    //int cnt = dfs(0, now_chatting_room);
+    //cnt -= 1; // 자기자신 빼기
 
+    int cnt = bfs(now_chatting_room);
     return cnt;
 }
 
