@@ -10,7 +10,7 @@ int N, Q;
 struct CHAT {
     int chat_num; // 채팅방 번호
     int auth; // 권한
-    bool notice = true; // true = ON | false = OFF
+    bool notice; // true = ON | false = OFF
     CHAT* parent = nullptr; // 부모 채팅방
     CHAT* child[2] = { nullptr, nullptr }; // 자식 채팅방
 };
@@ -66,8 +66,24 @@ void change_parent(int num1, int num2) {
     now2->parent = parent1;
 }
 
+void init() {
+    FOR(num, 0, (N + 1)) {
+        CHAT* now_chatting_room = &chatting_room_pool[num];
+        now_chatting_room->chat_num = num;
+        now_chatting_room->notice = true;
+        now_chatting_room->auth = 0;
+        now_chatting_room->parent = nullptr;
+        FOR(i, 0, 2) {
+            now_chatting_room->child[i] = nullptr;
+        }
+    }
+}
+
 void sol() {
     cin >> N >> Q;
+
+    init();
+
     FOR(i, 0, Q) {
         int cmd = 0;
         cin >> cmd;
@@ -78,10 +94,8 @@ void sol() {
                 cin >> parent_num;
 
                 CHAT* now_chatting_room = &chatting_room_pool[num];
-                now_chatting_room->chat_num = num; // 지금 채팅방 번호
 
                 now_chatting_room->parent = &chatting_room_pool[parent_num]; // 자식 -> 부모 연결
-                now_chatting_room->parent->chat_num = parent_num; // 부모 채팅방 번호
 
                 FOR(i, 0, 2) {
                     if (now_chatting_room->parent->child[i] == nullptr) {
