@@ -3,8 +3,8 @@
 using namespace std;
 
 #define FOR(i,s,e) for(int i=s; i<e; ++i)
-#define N_MAX (8 + 1)
-#define Q_MAX (10);
+#define N_MAX (100000 + 1)
+#define Q_MAX (100000);
 
 int N, Q;
 struct CHAT {
