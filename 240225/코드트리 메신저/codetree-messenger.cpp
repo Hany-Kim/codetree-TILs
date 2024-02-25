@@ -24,6 +24,9 @@ int dfs(int depth, CHAT* now) {
         if (now->child[i]->auth >= (depth + 1)) {
             cnt += dfs(depth + 1, now->child[i]);
         }
+        else {
+            cnt += (dfs(depth + 1, now->child[i]) - 1);
+        }
     }
 
     return cnt;
