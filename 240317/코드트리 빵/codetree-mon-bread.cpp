@@ -5,8 +5,8 @@
 using namespace std;
 
 #define FOR(i,s,e) for(int i=(s); i<(e); ++i)
-#define N_MAX (5+1)
-#define M_MAX (3+1)
+#define N_MAX (15+1)
+#define M_MAX (30+1)
 
 int n, m;
 struct NODE
