@@ -81,14 +81,13 @@ void all_move() {
 
                 // 출구 만나면
                 if (nextDist == 0) {
-                    miro[y][x] = 0;
-                    distSum += (-1 * miro[y][x]);
                     //distSum += 1;
+                    distSum += (-1 * miro[y][x]);
+                    //cout << "도착 : " << (-1 * miro[y][x]) << "\n";
+                    miro[y][x] = 0;
                 }
                 else if (nextDist < curDist) {
                     v.push_back(make_pair(i, nextDist));
-                    //distSum += (-1 * miro[y][x]);
-                    //distSum += 1;
                 }
             }
             if (v.size() == 0) {
@@ -99,6 +98,8 @@ void all_move() {
             int nextPosY = y + dy[v[0].first];
             int nextPosX = x + dx[v[0].first];
             next_miro[nextPosY][nextPosX] += miro[y][x];
+            //cout << "이동 : " << (-1 * miro[y][x]) << "\n";
+
             //distSum += 1;
             distSum += (-1 * miro[y][x]);
         }
