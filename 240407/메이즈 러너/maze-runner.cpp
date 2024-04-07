@@ -82,8 +82,8 @@ void all_move() {
                 // 출구 만나면
                 if (nextDist == 0) {
                     miro[y][x] = 0;
-                    //distSum += (-1 * miro[y][x]);
-                    distSum += 1;
+                    distSum += (-1 * miro[y][x]);
+                    //distSum += 1;
                 }
                 else if (nextDist < curDist) {
                     v.push_back(make_pair(i, nextDist));
@@ -99,7 +99,8 @@ void all_move() {
             int nextPosY = y + dy[v[0].first];
             int nextPosX = x + dx[v[0].first];
             next_miro[nextPosY][nextPosX] += miro[y][x];
-            distSum += 1;
+            //distSum += 1;
+            distSum += (-1 * miro[y][x]);
         }
     }
     memcpy(miro, next_miro, sizeof(miro));
@@ -128,7 +129,7 @@ pair<pair<int, int>, int> find_square() {
                     }
                     if (isOutOfMap == true) break;
                 }
-                if(isOutOfMap == false && isFindSQ == true) return lts; // 맵안에 그려진 사각형이면 리턴
+                if (isOutOfMap == false && isFindSQ == true) return lts; // 맵안에 그려진 사각형이면 리턴
             }
         }
     }
@@ -142,7 +143,8 @@ void rotate() {
     int sx = lt.first.second;
     int len = lt.second;
 
-    vector<vector<int>> sq(len, vector<int>(len, 0));
+    //vector<vector<int>> sq(len, vector<int>(len, 0));
+    int sq[N_MAX][N_MAX] = { 0, };
 
     int cy = 0;
     int cx = len - 1;
@@ -177,6 +179,15 @@ void output() {
     }
 }
 
+bool isEnd() {
+    FOR(y, 1, N + 1) {
+        FOR(x, 1, N + 1) {
+            if (miro[y][x] <= -1 && miro[y][x] >= -10) return false;
+        }
+    }
+    return true;
+}
+
 void sol() {
     int time = 0;
     while (time <= K) {
@@ -187,6 +198,7 @@ void sol() {
         //cout << "이동 후\n";
         //output();
         rotate();
+        if (isEnd()) break;
         /*cout << "회전 후\n";
         output();*/
     }
