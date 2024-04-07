@@ -5,8 +5,8 @@
 #include <cstring>
 using namespace std;
 
-#define N_MAX (5 + 1)
-#define M_MAX (3)
+#define N_MAX (10 + 1)
+#define M_MAX (10)
 #define FOR(i,s,e) for(int i=s; i<(e); ++i)
 
 int N, M, K;
