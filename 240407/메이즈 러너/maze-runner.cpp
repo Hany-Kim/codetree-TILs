@@ -50,15 +50,22 @@ bool nextCmp(pair<int, int> left, pair<int, int> right) {
     return false;
 }
 
-void all_move() {
-    int next_miro[N_MAX][N_MAX] = { 0, };
-    
+void update_exit() {
     FOR(y, 1, (N + 1)) {
         FOR(x, 1, (N + 1)) {
             if (miro[y][x] <= -1 && miro[y][x] >= -10) continue;
             else if (miro[y][x] == -11) {
                 mExit = make_pair(y, x);
             }
+        }
+    }
+}
+
+void all_move() {
+    int next_miro[N_MAX][N_MAX] = { 0, };
+    FOR(y, 1, (N + 1)) {
+        FOR(x, 1, (N + 1)) {
+            if (miro[y][x] <= -1 && miro[y][x] >= -10) continue;
             next_miro[y][x] = miro[y][x];
         }
     }
@@ -81,7 +88,6 @@ void all_move() {
 
                 // 출구 만나면
                 if (nextDist == 0) {
-                    //distSum += 1;
                     distSum += (-1 * miro[y][x]);
                     //cout << "도착 : " << (-1 * miro[y][x]) << "\n";
                     miro[y][x] = 0;
@@ -99,8 +105,6 @@ void all_move() {
             int nextPosX = x + dx[v[0].first];
             next_miro[nextPosY][nextPosX] += miro[y][x];
             //cout << "이동 : " << (-1 * miro[y][x]) << "\n";
-
-            //distSum += 1;
             distSum += (-1 * miro[y][x]);
         }
     }
@@ -173,7 +177,7 @@ void output() {
     FOR(y, 1, N + 1) {
         FOR(x, 1, N + 1) {
             if (miro[y][x] == -11) cout << "* ";
-            else if (miro[y][x] < 0) cout << "@ ";
+            else if (miro[y][x] < 0) cout << "& ";
             else cout << miro[y][x] << ' ';
         }
         cout << '\n';
@@ -191,17 +195,18 @@ bool isEnd() {
 
 void sol() {
     int time = 0;
-    while (time <= K) {
+    while (time < K) {
         ++time;
-        //cout << "시간 : " << time << "\n";
+        //cout << "시간 : " << time << "\n\n";
         all_move();
         //cout << "이번턴까지 이동거리 : " << distSum << "\n";
-        //cout << "이동 후\n";
-        //output();
+        /*cout << "이동 후\n";
+        output();*/
         rotate();
-        if (isEnd()) break;
         /*cout << "회전 후\n";
         output();*/
+        update_exit();
+        if (isEnd()) break;
     }
     cout << distSum << '\n';
     cout << mExit.first << " " << mExit.second;
