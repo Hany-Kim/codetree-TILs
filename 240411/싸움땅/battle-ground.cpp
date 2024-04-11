@@ -1,9 +1,8 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <queue>
 using namespace std;
 
-#define N_MAX (5+1)
+#define N_MAX (20+1)
 #define FOR(i,s,e) for(int i=(s); i<(e); ++i)
 
 int n, m, k;
@@ -136,8 +135,10 @@ void sol() {
                     getPoint(now, score);
                     if (isGun(enemy)) putGun(enemy, ny, nx);
                     moveLooser(enemy, ny, nx, ePnum);
-                    if (isGun(now)) {
-                        putGun(now, ny, nx);
+                    if (checkGun(getIdx(ny, nx))) {
+                        if (isGun(now)) {
+                            putGun(now, ny, nx);
+                        }
                         getGun(now, ny, nx);
                     }
                     pmap[ny][nx] = nowPnum;
@@ -148,8 +149,10 @@ void sol() {
                     getPoint(enemy, score);
                     if (isGun(now)) putGun(now, ny, nx);
                     moveLooser(now, ny, nx, nowPnum);
-                    if (isGun(enemy)) {
-                        putGun(enemy, ny, nx);
+                    if (checkGun(getIdx(ny, nx))) {
+                        if (isGun(enemy)) {
+                            putGun(enemy, ny, nx);
+                        }
                         getGun(enemy, ny, nx);
                     }
                     pmap[ny][nx] = ePnum;
@@ -159,8 +162,10 @@ void sol() {
                         getPoint(now, score);
                         if (isGun(enemy)) putGun(enemy, ny, nx);
                         moveLooser(enemy, ny, nx, ePnum);
-                        if (isGun(now)) {
-                            putGun(now, ny, nx);
+                        if (checkGun(getIdx(ny, nx))) {
+                            if (isGun(now)) {
+                                putGun(now, ny, nx);
+                            }
                             getGun(now, ny, nx);
                         }
                         pmap[ny][nx] = nowPnum;
@@ -171,8 +176,10 @@ void sol() {
                         getPoint(enemy, score);
                         if (isGun(now)) putGun(now, ny, nx);
                         moveLooser(now, ny, nx, nowPnum);
-                        if (isGun(enemy)) {
-                            putGun(enemy, ny, nx);
+                        if (checkGun(getIdx(ny, nx))) {
+                            if (isGun(enemy)) {
+                                putGun(enemy, ny, nx);
+                            }
                             getGun(enemy, ny, nx);
                         }
                         pmap[ny][nx] = ePnum;
