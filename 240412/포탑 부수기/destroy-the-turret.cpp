@@ -142,11 +142,29 @@ bool bfs(PII atk, PII tar) {
     else return false;
 }
 
+void output(int mLog[][M_MAX]) {
+    cout << "map\n";
+    FOR(y, 1, (N + 1)){
+        FOR(x, 1, (M + 1)) {
+            cout << map[y][x].power << "\t";
+        }
+        cout << "\n";
+    }
+    cout << "기록\n";
+    FOR(y, 1, (N + 1)) {
+        FOR(x, 1, (M + 1)) {
+            cout << mLog[y][x] << "\t";
+        }
+        cout << "\n";
+    }
+}
+
 void sol() {
     int turn = 0;
     while (turn < K) {
         ++turn;
         int mLog[N_MAX][M_MAX] = { 0, };
+        //cout << turn << "턴\n";
         // 공격자, 대상 찾기
         PII attacker = selectAttacker();
         PII target = selectTarget(attacker);
@@ -157,6 +175,8 @@ void sol() {
         map[attacker.first][attacker.second].power = map[attacker.first][attacker.second].power + N + M;
         map[attacker.first][attacker.second].lastAtkTurn = turn;
         int atkPower = map[attacker.first][attacker.second].power;
+        /*cout << "공격자 (" << attacker.first << "," << attacker.second << ") 힘 : " << atkPower << "\n";
+        cout << "타  겟 (" << target.first << "," << target.second << ") 힘 : " << map[target.first][target.second].power << "\n";*/
 
         // 공격
         if (bfs(attacker, target) == true) { // 레이저
@@ -189,7 +209,15 @@ void sol() {
                 if (map[ny][nx].power <= 0) map[ny][nx].power = 0;
                 mLog[ny][nx] = 1;
             }
+            map[now.first][now.second].power = map[now.first][now.second].power - atkPower;
+            if (map[now.first][now.second].power <= 0) map[now.first][now.second].power = 0;
+            mLog[now.first][now.second] = 1;
         }
+
+        /*cout << "[공격 후]\n";
+        output(mLog);
+        cout << "\n";*/
+
 
         FOR(y, 1, (N + 1)) {
             FOR(x, 1, (M + 1)) {
@@ -198,6 +226,11 @@ void sol() {
                 map[y][x].power += 1;
             }
         }
+
+        /*cout << "[정비 후]\n";
+        output(mLog);
+        cout << "\n";*/
+
         path.clear();
     }
 
