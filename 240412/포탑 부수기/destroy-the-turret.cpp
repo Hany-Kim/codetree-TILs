@@ -123,12 +123,12 @@ bool bfs(PII atk, PII tar) {
             int nx = now.first.second + dx[i];
             vector<PII> npath = now.second;
 
-            if (map[ny][nx].power <= 0) continue; // 파괴된 포탑
-            if (used[ny][nx] > 0) continue; // 이미 방문
             if (ny < 1) ny = N;
             if (ny > N) ny = 1;
             if (nx < 1) nx = M;
             if (nx > M) nx = 1;
+            if (map[ny][nx].power <= 0) continue; // 파괴된 포탑
+            if (used[ny][nx] > 0) continue; // 이미 방문
 
             used[ny][nx] = used[now.first.first][now.first.second] + 1;
             npath.push_back(make_pair(ny, nx));
@@ -178,12 +178,12 @@ void sol() {
                 int ny = now.first + ty[i];
                 int nx = now.second + tx[i];
 
-                if (ny == attacker.first && nx == attacker.second) continue;
-                if (map[ny][nx].power <= 0) continue;
                 if (ny < 1) ny = N;
                 if (ny > N) ny = 1;
                 if (nx < 1) nx = M;
                 if (nx > M) nx = 1;
+                if (ny == attacker.first && nx == attacker.second) continue;
+                if (map[ny][nx].power <= 0) continue;
 
                 map[ny][nx].power = map[ny][nx].power - (atkPower >> 1);
                 if (map[ny][nx].power <= 0) map[ny][nx].power = 0;
