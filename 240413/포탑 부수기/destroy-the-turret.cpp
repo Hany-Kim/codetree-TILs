@@ -66,7 +66,7 @@ PII selectTarget(PII atk) {
     PII ret;
     TOWER target;
     target.power = 0;
-    target.lastAtkTurn = 0;
+    target.lastAtkTurn = INT_MAX;
 
     FOR(y, 1, N + 1) {
         FOR(x, 1, M + 1) {
@@ -90,7 +90,7 @@ PII selectTarget(PII atk) {
                         target.lastAtkTurn = map[y][x].lastAtkTurn;
                         ret = make_pair(y, x);
                     }
-                    else if ((ret.first + ret.second) > (y + x)) {
+                    else if ((ret.first + ret.second) == (y + x)) {
                         if (ret.second > x) {
                             target.power = map[y][x].power;
                             target.lastAtkTurn = map[y][x].lastAtkTurn;
@@ -169,14 +169,12 @@ bool isEnd() {
             }
         }
     }
-    if (towerCnt == 1) return true;
+    if (towerCnt <= 1) return true;
     else return false;
 }
 
 void sol() {
-    int turn = 0;
-    while (turn < K) {
-        ++turn;
+    FOR(turn, 1, (K+1)) {
         int mLog[N_MAX][M_MAX] = { 0, };
         //cout << turn << "턴\n";
         // 공격자, 대상 찾기
@@ -241,7 +239,6 @@ void sol() {
                 map[y][x].power += 1;
             }
         }
-
         /*cout << "[정비 후]\n";
         output(mLog);
         cout << "\n";*/
