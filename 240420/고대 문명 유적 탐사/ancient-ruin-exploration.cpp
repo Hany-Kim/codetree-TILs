@@ -161,7 +161,7 @@ int mbfs(int sy, int sx) {
         }
         return cnt;
     }
-    else return 0;
+    return 0;
 }
 
 bool endGame() {
