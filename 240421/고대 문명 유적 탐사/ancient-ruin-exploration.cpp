@@ -93,6 +93,11 @@ int bfs(int sy, int sx) {
     }
 
     if (cnt >= 3) {
+        FOR(y, 0, MAP_MAX) {
+            FOR(x, 0, MAP_MAX) {
+                if (used[y][x] == 1) dUsed[y][x] = 1;
+            }
+        }
         return cnt;
     }
     return 0;
@@ -100,7 +105,7 @@ int bfs(int sy, int sx) {
 
 int getScore() {
     int curScore = 0;
-
+    memset(dUsed, 0, sizeof(dUsed));
     FOR(y, 0, MAP_MAX) {
         FOR(x, 0, MAP_MAX) {
             if (dUsed[y][x] == 1) continue;
@@ -186,7 +191,6 @@ void output() {
 void sol() {
     FOR(turn, 1, (K + 1)) {
         vector<pair<PII, PII> > v; // 회전 각도, 얻은 점수, 중심좌표 (y,x)
-        //vector<pair<pair<int,int>, pair<int,int>> > v; // 회전 각도, 얻은 점수, 중심좌표 (y,x)
         FOR(y, 1, 4) {
             FOR(x, 1, 4) {
                 memcpy(tmap, map, sizeof(map));
