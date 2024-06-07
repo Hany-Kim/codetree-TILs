@@ -33,6 +33,7 @@ int getSchedular(int len) {
 		int nowDay = path[i];
 		if (nowDay > pastDay) {
 			if (schedular[nowDay] == 0) {
+				if ((N + 1) < outPjt[nowDay].first + nowDay) break;
 				FOR(j, nowDay, outPjt[nowDay].first + nowDay) {
 					schedular[j] = nowDay;
 				}
