@@ -22,8 +22,6 @@ int dy[4] = { -1, 1, 0, 0 };
 int dx[4] = { 0, 0, -1, 1 };
 int maxSum;
 
-vector<PII> posNum[3];
-
 void input() {
 	cin >> n >> m;
 	FOR(y, 0, n) {
@@ -35,64 +33,36 @@ void input() {
 		}
 	}
 }
+
+void bfs(int num) {
+	queue<PII> q;
+	int visit[N_MAX][M_MAX] = { 0, };
+
+	PII nowFire = fireList[num];
+
+	q.push(nowFire);
+	visit[nowFire.first][nowFire.second] = 1;
+
+	while (!q.empty()) {
+		PII now = q.front();
+		q.pop();
+
+		FOR(i, 0, 4) {
+			int ny = now.first + dy[i];
+			int nx = now.second + dx[i];
+
+			if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
+			if (visit[ny][nx] == 1) continue; // 방문했으면
+			if (tmap[ny][nx] == 1) continue; // 방화벽이면
+			
+			tmap[ny][nx] = 2;
+			visit[ny][nx] = 1;
+			q.push(make_pair(ny, nx));
+		}
+	}
+}
+
 /*
-void bfs(int num) {
-	queue<PII> q;
-	int visit[N_MAX][M_MAX] = { 0, };
-
-	PII nowFire = fireList[num];
-
-	q.push(nowFire);
-	visit[nowFire.first][nowFire.second] = 1;
-
-	while (!q.empty()) {
-		PII now = q.front();
-		q.pop();
-
-		FOR(i, 0, 4) {
-			int ny = now.first + dy[i];
-			int nx = now.second + dx[i];
-
-			if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
-			if (visit[ny][nx] == 1) continue;
-			if (tmap[ny][nx] == 1) continue;
-
-			tmap[ny][nx] = 2;
-			visit[ny][nx] = 1;
-			q.push(make_pair(ny, nx));
-		}
-	}
-}
-*/
-void bfs(int num) {
-	queue<PII> q;
-	int visit[N_MAX][M_MAX] = { 0, };
-
-	PII nowFire = fireList[num];
-
-	q.push(nowFire);
-	visit[nowFire.first][nowFire.second] = 1;
-
-	while (!q.empty()) {
-		PII now = q.front();
-		q.pop();
-
-		FOR(i, 0, 4) {
-			int ny = now.first + dy[i];
-			int nx = now.second + dx[i];
-
-			if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
-			if (visit[ny][nx] == 1) continue;
-			if (tmap[ny][nx] == 1) continue;
-			
-			
-			tmap[ny][nx] = 2;
-			visit[ny][nx] = 1;
-			q.push(make_pair(ny, nx));
-		}
-	}
-}
-
 void dfs(int lv, PII now) {
 	if (lv >= 3) {
 		memcpy(tmap, map, sizeof(map));
@@ -102,7 +72,6 @@ void dfs(int lv, PII now) {
 			tmap[now.first][now.second] = 1;
 		}
 
-		
 		FOR(i, 0, fireCnt) {
 			bfs(i);
 		}
@@ -119,9 +88,10 @@ void dfs(int lv, PII now) {
 		return;
 	}
 
-	FOR(y, 0, n) {
+	FOR(y, now.first, n) {
 		FOR(x, 0, m) {
 			if (map[y][x] != 0) continue;
+			if (path[lv - 1].first >= y && path[lv - 1].second > x) continue;
 			if (used[y][x] == 1) continue;
 			used[y][x] = 1;
 			path[lv] = make_pair(y, x);
@@ -131,6 +101,7 @@ void dfs(int lv, PII now) {
 		}
 	}
 }
+*/
 
 void sol() {
 	/*FOR(y, 0, n) {
@@ -195,6 +166,9 @@ void sol() {
 
 int main() {
 	//freopen("input.txt", "r", stdin);
+	ios::sync_with_stdio(false);
+	cin.tie(NULL);
+	cout.tie(NULL);
 	input();
 	sol();
 	return 0;
