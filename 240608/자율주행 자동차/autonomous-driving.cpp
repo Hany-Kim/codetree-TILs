@@ -1,9 +1,10 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 
 using namespace std;
 
-#define N_MAX (50)
-#define M_MAX (50)
+#define N_MAX (6)
+#define M_MAX (6)
 #define FOR(i,s,e) for(int i=(s); i<(e); ++i)
 #define PII pair<int,int>
 
@@ -91,21 +92,15 @@ void dfs(int area) {
 	}
 }
 
-bool isLeft() {
-	for (int i = 0; i > -4; i--) {
-		int d = i;
-		if (d < 0) d += 4;
+bool isLeft(int d) {
+	int ny = car.pos.first + dy[d];
+	int nx = car.pos.second + dx[d];
 
-		int ny = car.pos.first + dy[d];
-		int nx = car.pos.second + dx[d];
+	if (ny < 0 || ny >= n || nx < 0 || nx >= m) return false; // 맵 밖
+	if (map[ny][nx] == 1) return false; // 인도
+	if (used[ny][nx] == 1) return false; // 지나온 길
 
-		if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue; // 맵 밖
-		if (map[ny][nx] == 1) continue; // 인도
-		if (used[ny][nx] == 1) continue; // 지나온 길
-
-		return true;
-	}
-	return false;
+	return true;
 }
 
 void sol() {
@@ -117,11 +112,15 @@ void sol() {
 		int sx = car.pos.second;
 		used[sy][sx] = 1;
 
-		if (isLeft()) { // 갈 수 있냐? 
-			// 왼쪽 간적 없으면 좌회전 후 이동
-			for (int i = 0; i > -4; i--) {
-				int d = i;
-				if (d < 0) d += 4;
+		bool isMove = false;
+		for (int i = -1; i >= -4; --i) {
+			if (isMove) continue;
+
+			int d = car.dir + i;
+			if (d < 0) d += 4;
+
+			if (isLeft(d)) { // 갈 수 있냐? 
+				// 왼쪽 간적 없으면 좌회전 후 이동
 
 				int ny = car.pos.first + dy[d];
 				int nx = car.pos.second + dx[d];
@@ -131,9 +130,10 @@ void sol() {
 				if (used[ny][nx] == 1) continue; // 지나온 길
 
 				moveCar(make_pair(ny, nx), d);
-			}
-		} 
-		else {
+				isMove = true;
+			} 
+		}
+		if(!isMove) {
 			if (isMoveBack()) {
 				// 후진할 수 있냐
 				int d = 0;
