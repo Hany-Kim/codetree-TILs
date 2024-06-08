@@ -76,8 +76,8 @@ void dfs(int lv, PII now) {
 		}
 
 		int sum = 0;
-		FOR(y, 0, n) {
-			FOR(x, 0, m) {
+		FOR(y, now.first, n) {
+			FOR(x, now.second, m) {
 				if (tmap[y][x] == 0) ++sum;
 			}
 		}
