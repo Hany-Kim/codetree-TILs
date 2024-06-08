@@ -53,7 +53,8 @@ void bfs(int num) {
 
 			if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
 			if (visit[ny][nx] == 1) continue;
-			if (tmap[ny][nx] == 1) continue;
+			//if (tmap[ny][nx] == 1) continue;
+			if (tmap[ny][nx] != 0) continue;
 
 			tmap[ny][nx] = 2;
 			visit[ny][nx] = 1;
@@ -77,8 +78,9 @@ void dfs(int lv, PII now) {
 
 		int sum = 0;
 		FOR(y, now.first, n) {
-			FOR(x, now.second, m) {
-				if (tmap[y][x] == 0) ++sum;
+			FOR(x, 0, m) {
+				if (tmap[y][x] == 0) 
+					++sum;
 			}
 		}
 		maxSum = max(maxSum, sum);
