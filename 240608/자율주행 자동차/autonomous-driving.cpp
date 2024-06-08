@@ -3,8 +3,8 @@
 
 using namespace std;
 
-#define N_MAX (6)
-#define M_MAX (6)
+#define N_MAX (50)
+#define M_MAX (50)
 #define FOR(i,s,e) for(int i=(s); i<(e); ++i)
 #define PII pair<int,int>
 
