@@ -154,13 +154,13 @@ void sol() {
 			map[y1][x1] = 1;
 
 			FOR(y2, y1, n) {
-				FOR(x2, x1, m) {
+				FOR(x2, 0, m) {
 					if (map[y2][x2] != 0) continue;
 					path[1] = make_pair(y2, x2);
 					map[y2][x2] = 1;
 
 					FOR(y3, y2, n) {
-						FOR(x3, x2, m) {
+						FOR(x3, 0, m) {
 							if (map[y3][x3] != 0) continue;
 							path[2] = make_pair(y3, x3);
 							map[y3][x3] = 1;
