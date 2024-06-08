@@ -151,21 +151,21 @@ void sol() {
 		FOR(x1, 0, m) {
 			if (map[y1][x1] != 0) continue;
 			path[0] = make_pair(y1, x1);
+			map[y1][x1] = 1;
+
 			FOR(y2, y1, n) {
 				FOR(x2, x1, m) {
 					if (map[y2][x2] != 0) continue;
 					path[1] = make_pair(y2, x2);
+					map[y2][x2] = 1;
+
 					FOR(y3, y2, n) {
 						FOR(x3, x2, m) {
 							if (map[y3][x3] != 0) continue;
 							path[2] = make_pair(y3, x3);
+							map[y3][x3] = 1;
 
 							memcpy(tmap, map, sizeof(map));
-							FOR(i, 0, 3) {
-								PII now = path[i];
-
-								tmap[now.first][now.second] = 1;
-							}
 
 							FOR(i, 0, fireCnt) {
 								bfs(i);
@@ -179,10 +179,14 @@ void sol() {
 								}
 							}
 							maxSum = max(maxSum, sum);
+
+							map[y3][x3] = 0;
 						}
 					}
+					map[y2][x2] = 0;
 				}
 			}
+			map[y1][x1] = 0;
 		}
 	}
 
