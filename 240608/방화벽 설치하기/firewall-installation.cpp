@@ -22,6 +22,8 @@ int dy[4] = { -1, 1, 0, 0 };
 int dx[4] = { 0, 0, -1, 1 };
 int maxSum;
 
+vector<PII> posNum[3];
+
 void input() {
 	cin >> n >> m;
 	FOR(y, 0, n) {
@@ -33,7 +35,7 @@ void input() {
 		}
 	}
 }
-
+/*
 void bfs(int num) {
 	queue<PII> q;
 	int visit[N_MAX][M_MAX] = { 0, };
@@ -53,9 +55,37 @@ void bfs(int num) {
 
 			if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
 			if (visit[ny][nx] == 1) continue;
-			//if (tmap[ny][nx] == 1) continue;
-			if (tmap[ny][nx] != 0) continue;
+			if (tmap[ny][nx] == 1) continue;
 
+			tmap[ny][nx] = 2;
+			visit[ny][nx] = 1;
+			q.push(make_pair(ny, nx));
+		}
+	}
+}
+*/
+void bfs(int num) {
+	queue<PII> q;
+	int visit[N_MAX][M_MAX] = { 0, };
+
+	PII nowFire = fireList[num];
+
+	q.push(nowFire);
+	visit[nowFire.first][nowFire.second] = 1;
+
+	while (!q.empty()) {
+		PII now = q.front();
+		q.pop();
+
+		FOR(i, 0, 4) {
+			int ny = now.first + dy[i];
+			int nx = now.second + dx[i];
+
+			if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
+			if (visit[ny][nx] == 1) continue;
+			if (tmap[ny][nx] == 1) continue;
+			
+			
 			tmap[ny][nx] = 2;
 			visit[ny][nx] = 1;
 			q.push(make_pair(ny, nx));
@@ -72,12 +102,13 @@ void dfs(int lv, PII now) {
 			tmap[now.first][now.second] = 1;
 		}
 
+		
 		FOR(i, 0, fireCnt) {
 			bfs(i);
 		}
 
 		int sum = 0;
-		FOR(y, now.first, n) {
+		FOR(y, 0, n) {
 			FOR(x, 0, m) {
 				if (tmap[y][x] == 0) 
 					++sum;
@@ -102,7 +133,7 @@ void dfs(int lv, PII now) {
 }
 
 void sol() {
-	FOR(y, 0, n) {
+	/*FOR(y, 0, n) {
 		FOR(x, 0, m) {
 			if (map[y][x] == 0) {
 				memset(used, 0, sizeof(used));
@@ -112,6 +143,45 @@ void sol() {
 				dfs(1, now);
 				path[0] = make_pair(0, 0);
 				used[y][x] = 0;
+			}
+		}
+	}*/
+
+	FOR(y1, 0, n) {
+		FOR(x1, 0, m) {
+			if (map[y1][x1] != 0) continue;
+			path[0] = make_pair(y1, x1);
+			FOR(y2, y1, n) {
+				FOR(x2, x1, m) {
+					if (map[y2][x2] != 0) continue;
+					path[1] = make_pair(y2, x2);
+					FOR(y3, y2, n) {
+						FOR(x3, x2, m) {
+							if (map[y3][x3] != 0) continue;
+							path[2] = make_pair(y3, x3);
+
+							memcpy(tmap, map, sizeof(map));
+							FOR(i, 0, 3) {
+								PII now = path[i];
+
+								tmap[now.first][now.second] = 1;
+							}
+
+							FOR(i, 0, fireCnt) {
+								bfs(i);
+							}
+
+							int sum = 0;
+							FOR(y, 0, n) {
+								FOR(x, 0, m) {
+									if (tmap[y][x] == 0)
+										++sum;
+								}
+							}
+							maxSum = max(maxSum, sum);
+						}
+					}
+				}
 			}
 		}
 	}
