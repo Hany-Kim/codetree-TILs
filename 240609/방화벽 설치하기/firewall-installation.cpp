@@ -88,8 +88,8 @@ void dfs(int lv, PII now) {
 	}
 
 	//FOR(y, 0, n) {
-	FOR(y, now.first, n) {
-		FOR(x, now.second + 1, m) {
+	FOR(y, ０, n) {
+		FOR(x, ０, m) {
 			if (map[y][x] != 0) continue;
 			if (used[y][x] == 1) continue;
 			used[y][x] = 1;
