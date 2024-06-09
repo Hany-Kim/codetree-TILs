@@ -87,9 +87,9 @@ void dfs(int lv, PII now) {
 		return;
 	}
 
-	//FOR(y, 0, n) {
-	FOR(y, ０, n) {
-		FOR(x, ０, m) {
+
+	FOR(y, 0, n) {
+		FOR(x, 0, m) {
 			if (map[y][x] != 0) continue;
 			if (used[y][x] == 1) continue;
 			used[y][x] = 1;
