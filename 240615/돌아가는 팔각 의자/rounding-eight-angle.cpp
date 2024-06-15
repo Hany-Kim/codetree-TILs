@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <cstdlib>
 #include <cstring>
 #include <math.h>
 using namespace std;
@@ -56,6 +57,7 @@ void checkRotateChair(int num) {
 				if (chair[i - 1].dir == 1) chair[i].dir = -1;
 				else if (chair[i - 1].dir == -1) chair[i].dir = 1;
 			}
+			else break;
 		}
 	}
 	if (num > 0) {
@@ -69,6 +71,7 @@ void checkRotateChair(int num) {
 				if (chair[i + 1].dir == 1) chair[i].dir = -1;
 				else if (chair[i + 1].dir == -1) chair[i].dir = 1;
 			}
+			else break;
 		}
 	}
 }
