@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -21,24 +20,19 @@ int ansMin = INT_MAX;
 
 void input() {
 	cin >> n;
-	
+
 	FOR(i, 0, n) {
 		cin >> numList[i];
 	}
 	FOR(i, 0, 3) {
 		cin >> calCnt[i];
-		FOR(j, 0, calCnt[i]) {
-			calList.push_back(kindOfCal[i]);
-		}
 	}
-
-	used = vector<int>(calList.size(), 0);
 }
 
 void dfs(int lv) {
-	if (lv >= (n-1)) {
+	if (lv >= (n - 1)) {
 		int sum = numList[0];
-		FOR(i, 0, n-1) {
+		FOR(i, 0, n - 1) {
 			char cal = calPath[i];
 			switch (cal)
 			{
@@ -57,19 +51,19 @@ void dfs(int lv) {
 		ansMin = min(ansMin, sum);
 		return;
 	}
-	FOR(i, 0, calList.size()) {
-		if (used[i] == 1) continue;
-		used[i] = 1;
-		calPath[lv] = calList[i];
+	FOR(i, 0, 3) {
+		if (calCnt[i] <= 0) continue;
+		calCnt[i]--;
+		calPath[lv] = kindOfCal[i];
 		dfs(lv + 1);
 		calPath[lv] = ' ';
-		used[i] = 0;
+		calCnt[i]++;
 	}
 }
 
 void sol() {
 	dfs(0);
-	cout << ansMin << ' ' <<  ansMax;
+	cout << ansMin << ' ' << ansMax;
 }
 
 int main() {
