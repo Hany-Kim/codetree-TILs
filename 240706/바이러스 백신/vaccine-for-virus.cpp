@@ -35,7 +35,7 @@ bool allVirusDie(int visit[][N_MAX]) {
 	for (int y = 0; y < N; ++y) {
 		for (int x = 0; x < N; ++x) {
 			if (map[y][x] == 0) {
-				if (visit[y][x] == -1) return false;
+				if (visit[y][x] == 0) return false;
 			}
 		}
 	}
@@ -45,12 +45,11 @@ bool allVirusDie(int visit[][N_MAX]) {
 int bfs() {
 	queue<PII> q;
 	int visit[N_MAX][N_MAX] = { 0, };
-	memset(visit, -1, sizeof(visit));
 
 	for (int i = 0; i < M; ++i) {
 		PII now = combi[i];
 		q.push(make_pair(now.first, now.second));
-		visit[now.first][now.second] = 0;
+		visit[now.first][now.second] = 1;
 	}
 
 	int cnt = 0;
@@ -65,11 +64,11 @@ int bfs() {
 
 			if (map[ny][nx] == 1) continue;
 			if (ny < 0 || ny >= N || nx < 0 || nx >= N) continue;
-			if (visit[ny][nx] != -1) continue;
+			if (visit[ny][nx] != 0) continue;
 
-			if(map[ny][nx] == 0) visit[ny][nx] = visit[now.first][now.second] + 1;
-			else visit[ny][nx] = visit[now.first][now.second];
-			cnt = max(cnt, visit[ny][nx]);
+			visit[ny][nx] = visit[now.first][now.second] + 1;
+			if(map[ny][nx] == 0) cnt = max(cnt, visit[ny][nx] - 1);
+			
 			q.push(make_pair(ny, nx));
 		}
 	}
