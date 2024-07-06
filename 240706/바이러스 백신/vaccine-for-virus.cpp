@@ -61,7 +61,7 @@ int bfs() {
 			int ny = now.first + dy[i];
 			int nx = now.second + dx[i];
 
-			if (map[ny][nx] != 0) continue;
+			if (map[ny][nx] == 1) continue;
 			if (ny < 0 || ny >= N || nx < 0 || nx >= N) continue;
 			if (visit[ny][nx] != 0) continue;
 
