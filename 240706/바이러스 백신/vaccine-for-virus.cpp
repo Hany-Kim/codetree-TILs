@@ -87,12 +87,12 @@ void dfs(int lv, int nowH) {
 		return;
 	}
 	for (int i = nowH; i < hCnt; ++i) {
-		if (used[i] == 1) continue;
-		used[i] = 1;
+		//if (used[i] == 1) continue;
+		//used[i] = 1;
 		combi[lv] = hospitalList[i];
-		dfs(lv + 1, i);
+		dfs(lv + 1, i + 1);
 		combi[lv] = make_pair(0, 0);
-		used[i] = 0;
+		//used[i] = 0;
 	}
 }
 
