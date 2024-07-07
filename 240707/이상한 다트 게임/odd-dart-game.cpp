@@ -16,7 +16,7 @@ void input() {
 	v = vector<vector<int>>(n, vector<int>(m, 0));
 
 	for (int y = 0; y < n; ++y) {
-		for (int x = 0; x < n; ++x) {
+		for (int x = 0; x < m; ++x) {
 			cin >> v[y][x];
 		}
 	}
@@ -53,8 +53,8 @@ int bfs(int sy, int sx, int num) {
 			int ny = now.first + dy[i];
 			int nx = now.second + dx[i];
 
-			if (nx >= n) nx = 0;
-			else if (nx < 0) nx = (n - 1);
+			if (nx >= m) nx = 0;
+			else if (nx < 0) nx = (m - 1);
 
 			if (ny < 0 || ny >= n) continue;
 			if (used[ny][nx] == 1) continue;
@@ -82,7 +82,7 @@ int bfs(int sy, int sx, int num) {
 bool eraseNum() {
 	int eraseCnt = 0;
 	for (int y = 0; y < n; ++y) {
-		for (int x = 0; x < n; ++x) {
+		for (int x = 0; x < m; ++x) {
 			if (v[y][x] == 0) continue;
 			eraseCnt += bfs(y, x, v[y][x]);
 		}
