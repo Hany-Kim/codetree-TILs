@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -81,14 +82,44 @@ int bfs(int sy, int sx, int num) {
 
 bool eraseNum() {
 	int eraseCnt = 0;
-	for (int y = 0; y < n; ++y) {
+	/*for (int y = 0; y < n; ++y) {
 		for (int x = 0; x < m; ++x) {
 			if (v[y][x] == 0) continue;
 			eraseCnt += bfs(y, x, v[y][x]);
 		}
+	}*/
+	vector<vector<int>> used;
+	used = vector<vector<int>>(n, vector<int>(m, 0));
+
+	for (int y = 0; y < n; ++y) {
+		for (int x = 0; x < m; ++x) {
+			if (v[y][x] == 0) continue;
+			for (int i = 0; i < 4; ++i) {
+				int ny = y + dy[i];
+				int nx = x + dx[i];
+
+				if (nx >= m) nx = 0;
+				else if (nx < 0) nx = (m - 1);
+
+				if (ny < 0 || ny >= n) continue;
+				if (v[ny][nx] == 0) continue;
+				if (v[ny][nx] != v[y][x]) continue;
+
+				eraseCnt += 1;
+				used[y][x] = 1;
+			}
+		}
 	}
 
-	if (eraseCnt > 0) return true;
+	if (eraseCnt > 1) {
+		for (int y = 0; y < n; ++y) {
+			for (int x = 0; x < m; ++x) {
+				if (used[y][x] == 1) v[y][x] = 0;
+			}
+		}
+	}
+
+	if (eraseCnt > 1) return true;
 	else return false;
 }
 
