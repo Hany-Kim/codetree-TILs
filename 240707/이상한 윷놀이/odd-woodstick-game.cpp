@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <algorithm>
 #include <vector>
@@ -52,12 +53,12 @@ bool isWhite(int ny, int nx) {
 }
 bool isBlue(int ny, int nx) {
 	if (ny<1 || ny>n || nx<1 || nx>n) return false;
-	if (map[ny][nx] == 1) return true;
+	if (map[ny][nx] == 2) return true;
 	return false;
 }
 bool isRed(int ny, int nx) {
 	if (ny<1 || ny>n || nx<1 || nx>n) return false;
-	if (map[ny][nx] == 2) return true;
+	if (map[ny][nx] == 1) return true;
 	return false;
 }
 bool isOutOfRange(int ny, int nx) {
