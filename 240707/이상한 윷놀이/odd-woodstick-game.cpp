@@ -135,7 +135,7 @@ void moveAllHorse() {
 				moveToWhite(now, ny, nx, i);
 			}
 			else if (isBlue(ny, nx) || isOutOfRange(ny, nx)) {
-				changeDir(now);
+				//changeDir(now);
 				ny = now->y;
 				nx = now->x;
 			}
