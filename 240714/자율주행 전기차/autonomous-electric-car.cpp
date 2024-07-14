@@ -10,7 +10,8 @@ using namespace std;
 int n, m, c;
 int map[N_MAX][N_MAX];
 int mcus[N_MAX][N_MAX];
-int mgoal[N_MAX][N_MAX];
+//int mgoal[N_MAX][N_MAX];
+PII mgoal[N_MAX * N_MAX];
 struct TAXI {
 	int y, x;
 	int battery;
@@ -35,7 +36,8 @@ void input() {
 		int ys = 0, xs = 0, ye = 0, xe = 0;
 		cin >> ys >> xs >> ye >> xe;
 		mcus[ys][xs] = i;
-		mgoal[ye][xe] = i * (-1);
+		//mgoal[ye][xe] = i * (-1);
+		mgoal[i] = make_pair(ye, xe);
 	}
 }
 
@@ -130,7 +132,7 @@ pair<PII, int> gbfs(int gNum) {
 
 			used[ny][nx] = used[now.first.first][now.first.second] + 1;
 			q.push(make_pair(make_pair(ny, nx), used[ny][nx]));
-			if (mgoal[ny][nx] == (gNum * -1)) v.push_back(make_pair(make_pair(ny, nx), used[ny][nx] - 1));
+			if (mgoal[gNum].first == ny && mgoal[gNum].second == nx) v.push_back(make_pair(make_pair(ny, nx), used[ny][nx] - 1));
 		}
 	}
 
@@ -183,7 +185,7 @@ void sol() {
 			taxi.battery = -1;
 			break;
 		}
-		mgoal[goal.first.first][goal.first.second] = 0;
+		//mgoal[goal.first.first][goal.first.second] = 0;
 	}
 	cout << taxi.battery;
 }
