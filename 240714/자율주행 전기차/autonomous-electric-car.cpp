@@ -79,6 +79,10 @@ pair<PII, int> bfs() {
 		}
 	}
 
+	if (v.size() == 0) {
+		endFlag = true;
+		return make_pair(make_pair(-1,-1), -1);
+	}
 	sort(v.begin(), v.end(), cmp);
 	ret = v[0];
 
@@ -130,6 +134,10 @@ pair<PII, int> gbfs(int gNum) {
 		}
 	}
 
+	if (v.size() == 0) {
+		endFlag = true;
+		return make_pair(make_pair(-1, -1), -1);
+	}
 	ret = v[0];
 
 	return ret;
