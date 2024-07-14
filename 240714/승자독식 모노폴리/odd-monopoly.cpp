@@ -4,8 +4,8 @@
 using namespace std;
 
 #define PII pair<int,int>
-#define N_MAX 5
-#define M_MAX 5
+#define N_MAX 21
+#define M_MAX 401
 
 int n, m, k;
 PII map[N_MAX][N_MAX]; // pNum, k턴
