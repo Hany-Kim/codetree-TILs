@@ -108,45 +108,45 @@ void spreadWind(int num) {
 	// 에어컨 문 앞에 바로 벽 있는지
 	if (checkWall(sy, sx, num)) return;
 
-used[acList[num].pos.first][acList[num].pos.second] = 1;
-used[sy][sx] = 1;
-tmp[sy][sx] = 5;
-q.push(make_pair(make_pair(sy, sx), tmp[sy][sx]));
+	used[acList[num].pos.first][acList[num].pos.second] = 1;
+	used[sy][sx] = 1;
+	tmp[sy][sx] = 5;
+	q.push(make_pair(make_pair(sy, sx), tmp[sy][sx]));
 
-while (!q.empty()) {
-	pair<PII, int> now = q.front();
-	q.pop();
+	while (!q.empty()) {
+		pair<PII, int> now = q.front();
+		q.pop();
 
-	for (int i = -1; i < 2; ++i) {
-		int nd = getNd(acList[num].dir, i);
-		int ny = now.first.first;
-		int nx = now.first.second;
+		for (int i = -1; i < 2; ++i) {
+			int nd = getNd(acList[num].dir, i);
+			int ny = now.first.first;
+			int nx = now.first.second;
 
-		if (i != 0) {
-			ny = ny + dy[nd];
-			nx = nx + dx[nd];
+			if (i != 0) {
+				ny = ny + dy[nd];
+				nx = nx + dx[nd];
+			}
+			if (canGoStep1(now, num, i, ny, nx)) continue;
+
+			ny = ny + dy[acList[num].dir];
+			nx = nx + dx[acList[num].dir];
+			if (canGoStep2(now, num, i, ny, nx)) continue;
+
+			if (ny<1 || ny>n || nx<1 || nx>n) continue;
+			if (used[ny][nx] == 1)continue;
+			if (tmp[ny][nx] > 0) continue;
+
+			tmp[ny][nx] = now.second - 1;
+			used[ny][nx] = 1;
+			q.push(make_pair(make_pair(ny, nx), tmp[ny][nx]));
 		}
-		if (canGoStep1(now, num, i, ny, nx)) continue;
-
-		ny = ny + dy[acList[num].dir];
-		nx = nx + dx[acList[num].dir];
-		if (canGoStep2(now, num, i, ny, nx)) continue;
-
-		if (ny<1 || ny>n || nx<1 || nx>n) continue;
-		if (used[ny][nx] == 1)continue;
-		if (tmp[ny][nx] > 0) continue;
-
-		tmp[ny][nx] = now.second - 1;
-		used[ny][nx] = 1;
-		q.push(make_pair(make_pair(ny, nx), tmp[ny][nx]));
 	}
-}
 
-for (int y = 1; y <= n; ++y) {
-	for (int x = 1; x <= n; ++x) {
-		windMap[y][x] += tmp[y][x];
+	for (int y = 1; y <= n; ++y) {
+		for (int x = 1; x <= n; ++x) {
+			windMap[y][x] += tmp[y][x];
+		}
 	}
-}
 }
 
 void turnOnAc() {
@@ -174,7 +174,7 @@ void mixedAir() {
 					if (wall[1][y][x]) continue;
 				}
 				else if (i == 2) {
-					if (wall[1][ny][nx]) continue;
+					if (wall[0][ny][nx]) continue;
 				}
 				else if (i == 3) {
 					if (wall[1][ny][nx]) continue;
