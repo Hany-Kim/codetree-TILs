@@ -199,11 +199,15 @@ void mixedAir() {
 void decreaseOutside() {
 	for (int y = 1; y <= n; ++y) {
 		windMap[y][1] -= 1;
+		if (windMap[y][1] < 0) windMap[y][1] = 0;
 		windMap[y][n] -= 1;
+		if (windMap[y][n] < 0) windMap[y][n] = 0;
 	}
 	for (int x = 2; x < n; ++x) {
 		windMap[1][x] -= 1;
+		if (windMap[1][x] < 0) windMap[1][x] = 0;
 		windMap[n][x] -= 1;
+		if (windMap[n][x] < 0) windMap[n][x] = 0;
 	}
 }
 
