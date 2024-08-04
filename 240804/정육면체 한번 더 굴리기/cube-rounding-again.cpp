@@ -86,24 +86,27 @@ void updateDice() {
 	if (dDice == 0) {
 		cPos -= 1;
 		if (cPos < 0) cPos = 3;
-		cDice[cPos] = rDice[rPos]; // 아랫면
+		rDice[rPos] = cDice[cPos]; // 아랫면
+		rDice[(rPos + 2) % 4] = cDice[(cPos + 2) % 4]; // 윗면
 	}
 	else if (dDice == 1) {
 		rPos -= 1;
 		if (rPos < 0) rPos = 3;
-		rDice[rPos] = cDice[cPos];
+		cDice[cPos] = rDice[rPos]; // 아랫면
+		cDice[(cPos + 2) % 4] = rDice[(rPos + 2) % 4]; // 윗면
 	}
 	else if (dDice == 2) {
 		cPos += 1;
 		if (cPos >= 4) cPos = 0;
 		rDice[rPos] = cDice[cPos];
+		rDice[(rPos + 2) % 4] = cDice[(cPos + 2) % 4]; // 윗면
 	}
 	else if (dDice == 3) {
 		rPos += 1;
 		if (rPos >= 4) rPos = 0;
 		cDice[cPos] = rDice[rPos]; // 아랫면
+		cDice[(cPos + 2) % 4] = rDice[(rPos + 2) % 4]; // 윗면
 	}
-	cDice[(cPos + 2) % 4] = rDice[(rPos + 2) % 4]; // 윗면
 }
 
 void updateDiceDir() {
