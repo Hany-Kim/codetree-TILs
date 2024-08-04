@@ -227,6 +227,10 @@ void sol() {
 		mixedAir();
 		decreaseOutside();
 		curTime++;
+		if (curTime >= 100) {
+			curTime = -1;
+			break;
+		}
 		if (checkOffice()) break;
 	}
 	cout << curTime;
