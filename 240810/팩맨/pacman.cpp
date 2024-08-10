@@ -37,8 +37,9 @@ void move_mon() {
 		NODE* now = &monsterList[j];
 		
 		int ny = now->y, nx = now->x;
+		int nd = 0;
 		for (int i = 0; i < 8; ++i) {
-			int nd = i + now->d;
+			nd = i + now->d;
 			nd = (nd / 9) + (nd % 9);
 			ny = now->y + dy[nd];
 			nx = now->x + dx[nd];
@@ -52,6 +53,7 @@ void move_mon() {
 		tmp[ny][nx] += 1;
 		now->y = ny;
 		now->x = nx;
+		now->d = nd;
 	}
 
 	memcpy(map, tmp, sizeof(map));
