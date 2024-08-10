@@ -8,6 +8,7 @@ struct NODE {
 	int y, x, d, liveTurn;
 };
 NODE packman;
+NODE newpm;
 int dy[9] = { 0, -1, -1, 0, 1, 1, 1, 0, -1 };
 int dx[9] = { 0, 0, -1, -1, -1, 0, 1, 1, 1 };
 int map[5][5];
@@ -19,7 +20,6 @@ vector<NODE> sicheList;
 int path[3];
 int selectPath[3];
 int maxCnt;
-int used[5][5];
 
 void copy_mon() {
 	eggList = monsterList;
@@ -59,12 +59,29 @@ void move_mon() {
 	memcpy(map, tmp, sizeof(map));
 }
 
-void dfs(int lv, NODE pm, int cnt) {
+void dfs(int lv, NODE pm) {
 	if (lv == 3) {
-		if (selectPath[0] == 0 && selectPath[1] == 0 && selectPath[2] == 0) {
-			memcpy(selectPath, path, sizeof(path));
+		int used[5][5] = { 0, };
+
+		int cnt = 0;
+		if (map[packman.y][packman.x] > 0) {
+			cnt += map[packman.y][packman.x];
+			used[packman.y][packman.x] = 1;
 		}
-		if (cnt > maxCnt) {
+
+		int ny = packman.y;
+		int nx = packman.x;
+		for (int i = 0; i < 3; ++i) {
+			ny = ny + dy[path[i]];
+			nx = nx + dx[path[i]];
+
+			if (map[ny][nx] > 0 && used[ny][nx] == 0) {
+				cnt += map[ny][nx];
+				used[ny][nx] = 1;
+			}
+		}
+
+		if (maxCnt < cnt) {
 			maxCnt = cnt;
 			memcpy(selectPath, path, sizeof(path));
 		}
@@ -81,18 +98,10 @@ void dfs(int lv, NODE pm, int cnt) {
 		npm.y = ny;
 		npm.x = nx;
 		path[lv] = i;
-		if (map[ny][nx] > 0 && used[ny][nx] == 0) {
-			cnt += map[ny][nx];
-			used[ny][nx] = 1;
-		}
 
-		dfs(lv + 1, npm, cnt);
+		dfs(lv + 1, npm);
 		
 		path[lv] = 0;
-		if (map[ny][nx] > 0 && used[ny][nx] == 1) {
-			cnt -= map[ny][nx];
-			used[ny][nx] = 0;
-		}
 	}
 }
 
@@ -144,26 +153,12 @@ void createSiche() {
 }
 
 void move_packman() {
-	maxCnt = 0;
-	int cnt = 0;
-
-	if (map[packman.y][packman.x] > 0) {
-		cnt += map[packman.y][packman.x];
-		for (int j = 0; j < monsterList.size(); ++j) {
-			NODE* now = &monsterList[j];
-
-			if (now->y == packman.y && now->x == packman.x) {
-				now->liveTurn = 3;
-				sicheList.push_back(monsterList[j]);
-			}
-		}
-		used[packman.y][packman.x] = 1;
-	}
+	maxCnt = -1;
 
 	memset(selectPath, 0, sizeof(selectPath));
 	memset(path, 0, sizeof(path));
-	memset(used, 0, sizeof(used));
-	dfs(0, packman, cnt);
+	dfs(0, packman);
+	//packman = newpm;
 	createSiche();
 }
 
