@@ -61,6 +61,9 @@ void move_mon() {
 
 void dfs(int lv, NODE pm, int cnt) {
 	if (lv == 3) {
+		if (selectPath[0] == 0 && selectPath[1] == 0 && selectPath[2] == 0) {
+			memcpy(selectPath, path, sizeof(path));
+		}
 		if (cnt > maxCnt) {
 			maxCnt = cnt;
 			memcpy(selectPath, path, sizeof(path));
@@ -73,23 +76,22 @@ void dfs(int lv, NODE pm, int cnt) {
 		int nx = pm.x + dx[i];
 
 		if (ny < 1 || ny>4 || nx < 1 || nx>4) continue;
-		if (used[ny][nx] == 1) continue;
 
 		NODE npm;
 		npm.y = ny;
 		npm.x = nx;
 		path[lv] = i;
-		used[ny][nx] = 1;
-		if (map[ny][nx] > 0) {
+		if (map[ny][nx] > 0 && used[ny][nx] == 0) {
 			cnt += map[ny][nx];
+			used[ny][nx] = 1;
 		}
 
 		dfs(lv + 1, npm, cnt);
 		
 		path[lv] = 0;
-		used[ny][nx] = 0;
-		if (map[ny][nx] > 0) {
+		if (map[ny][nx] > 0 && used[ny][nx] == 1) {
 			cnt -= map[ny][nx];
+			used[ny][nx] = 0;
 		}
 	}
 }
@@ -155,12 +157,12 @@ void move_packman() {
 				sicheList.push_back(monsterList[j]);
 			}
 		}
+		used[packman.y][packman.x] = 1;
 	}
 
 	memset(selectPath, 0, sizeof(selectPath));
 	memset(path, 0, sizeof(path));
 	memset(used, 0, sizeof(used));
-	used[packman.y][packman.x] = 1;
 	dfs(0, packman, cnt);
 	createSiche();
 }
