@@ -8,7 +8,6 @@ struct NODE {
 	int y, x, d, liveTurn;
 };
 NODE packman;
-NODE newpm;
 int dy[9] = { 0, -1, -1, 0, 1, 1, 1, 0, -1 };
 int dx[9] = { 0, 0, -1, -1, -1, 0, 1, 1, 1 };
 int map[5][5];
@@ -24,8 +23,8 @@ int maxCnt;
 void copy_mon() {
 	eggList = monsterList;
 	for (int i = 0; i < monsterList.size(); ++i) {
-		NODE* now = &monsterList[i];
-		eggMap[now->y][now->x] += 1;
+		NODE now = monsterList[i];
+		eggMap[now.y][now.x] += 1;
 	}
 }
 
@@ -34,15 +33,15 @@ void move_mon() {
 	//memcpy(tmp, map, sizeof(tmp));
 
 	for (int j = 0; j < monsterList.size(); ++j) {
-		NODE* now = &monsterList[j];
+		NODE now = monsterList[j];
 		
-		int ny = now->y, nx = now->x;
+		int ny = now.y, nx = now.x;
 		int nd = 0;
 		for (int i = 0; i < 8; ++i) {
-			nd = i + now->d;
+			nd = i + now.d;
 			nd = (nd / 9) + (nd % 9);
-			ny = now->y + dy[nd];
-			nx = now->x + dx[nd];
+			ny = now.y + dy[nd];
+			nx = now.x + dx[nd];
 
 			if (packman.y == ny && packman.x == nx) continue;
 			if (sicheMap[ny][nx] >= 1) continue;
@@ -51,9 +50,10 @@ void move_mon() {
 			break;
 		}
 		tmp[ny][nx] += 1;
-		now->y = ny;
-		now->x = nx;
-		now->d = nd;
+		now.y = ny;
+		now.x = nx;
+		now.d = nd;
+		monsterList[j] = now;
 	}
 
 	memcpy(map, tmp, sizeof(map));
@@ -127,12 +127,13 @@ void createSiche() {
 		if (map[ny][nx] > 0) {
 			map[ny][nx] = 0;
 			for (int j = 0; j < monsterList.size(); ++j) {
-				NODE* now = &monsterList[j];
+				NODE now = monsterList[j];
 
-				if (now->y == ny && now->x == nx) {
-					now->liveTurn = 2;
-					sicheList.push_back(monsterList[j]);
-					sicheMap[now->y][now->x] += 1;
+				if (now.y == ny && now.x == nx) {
+					now.liveTurn = 2;
+					monsterList[j].liveTurn = 2;
+					sicheList.push_back(now);
+					sicheMap[now.y][now.x] += 1;
 				}
 			}
 		}
@@ -158,7 +159,6 @@ void move_packman() {
 	memset(selectPath, 0, sizeof(selectPath));
 	memset(path, 0, sizeof(path));
 	dfs(0, packman);
-	//packman = newpm;
 	createSiche();
 }
 
