@@ -3,7 +3,7 @@
 #include <cmath>
 using namespace std;
 
-#define N_MAX (5 + 1)
+#define N_MAX (100 + 1)
 
 int n, m, h, k;
 int map[N_MAX][N_MAX];
