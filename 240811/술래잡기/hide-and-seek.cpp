@@ -88,16 +88,15 @@ void move_domangja() {
 }
 
 int move_sulae(int turn) {
-	int mod = pow(n, 2);
-	int isReverse = (turn / mod) % 2;
-
+	int mod = pow(n, 2) - 1;
 
 	NODE* s = &sulae;
-	int nd = s->d;
-	int idx = (turn - 1) % (mod - 1);
+	
+	int idx = (turn - 1) % (mod);
 	int see = -1;
+	int nd = 0;
 
-	if (isReverse == 0) {
+	if (s->d == 0) {
 		nd = sDir[idx];
 		if (idx != sDir.size() - 1) { // 마지막 원소가 아닐때
 			if (sDir[idx] != sDir[idx + 1]) { // 틀어지는 곳
@@ -107,7 +106,7 @@ int move_sulae(int turn) {
 		}
 		else see = revSDir[0]; // 마지막 원소는 그냥 틀어짐
 	}
-	else if (isReverse == 1) {
+	else if (s->d == 1) {
 		nd = revSDir[idx];
 		if (idx != revSDir.size() - 1) { // 마지막 원소가 아닐때
 			if (revSDir[idx] != revSDir[idx + 1]) { // 틀어지는 곳
@@ -121,6 +120,9 @@ int move_sulae(int turn) {
 	// 술래 이동
 	s->y = s->y + dy[nd];
 	s->x = s->x + dx[nd];
+	
+	if (s->y == 1 && s->x == 1) s->d = 1;
+	else if (s->y == ((n >> 1) + 1) && s->x == ((n >> 1) + 1)) s->d = 0;
 
 	return see;
 }
@@ -155,8 +157,10 @@ void catch_domangja(int turn, int dir) {
 
 void sol() {
 	initSulae();
+	//int cnt = 0;
 	for (int turn = 1; turn <= k; ++turn) {
 		move_domangja();
+		//map[sulae.y][sulae.x] = cnt++;
 		int dir = move_sulae(turn);
 		catch_domangja(turn, dir);
 	}
