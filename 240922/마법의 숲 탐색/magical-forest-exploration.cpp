@@ -4,7 +4,7 @@
 #include <cstring>
 using namespace std;
 
-#define MAP_MAX (70 + 1 + 2)
+#define MAP_MAX (71 + 1 + 2)
 #define K_MAX 1001
 #define PII pair<int, int>
 
