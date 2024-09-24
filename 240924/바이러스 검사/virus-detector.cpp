@@ -4,9 +4,9 @@ using namespace std;
 #define N_MAX 1000000
 
 int n;
-int arr[N_MAX];
-int teamLeader, teamMember;
-int ans;
+long long arr[N_MAX];
+long long teamLeader, teamMember;
+long long ans;
 
 void hasTeamLeader() {
 	for (int i = 0; i < n; ++i) {
