@@ -160,6 +160,7 @@ void lazerAtt(int dist) {
 	memset(attackedTower, 0, sizeof(attackedTower));
 	memset(used, 0, sizeof(used));
 	findPath = false;
+
 	used[attacker.y][attacker.x] = 1;
 	dfs(dist, 0, attacker.y, attacker.x);
 }
@@ -219,25 +220,25 @@ void getAns() {
 
 void sol() {
 	for (int turn = 1; turn <= K; ++turn) {
-		selectAttackerAndTargeter();
-		if (attacker.y == targeter.y && attacker.x == targeter.x) {
+		selectAttackerAndTargeter(); // 공격자, 대상자 선택
+		if (attacker.y == targeter.y && attacker.x == targeter.x) { // 1개 남으면 종료
 			break;
 		}
-		plusAttackAbillity();
-		int shortestDist = bfs();
-		if (shortestDist == 0) {
+		plusAttackAbillity(); // 공격자 공격력 보정
+		int shortestDist = bfs(); // 최단 거리 구함
+		if (shortestDist == 0) { // 못가면 폭탄 공격
 			bombAtt();
 		}
 		else {
-			lazerAtt(shortestDist - 1);
+			lazerAtt(shortestDist - 1); // 최단 거리 기준으로 우선순위 경로 찾음
 		}
 
-		checkBrokenTower();
-		updateTower();
+		checkBrokenTower(); // 부서진 타워 공격력 0으로 보정
+		updateTower(); // 공격영향 없는 타워 공격력 +1
 
-		attacker.lat = turn;
-		memset(attackedTower, 0, sizeof(attackedTower));
+		attacker.lat = turn; // 공격자 타워 공격시간 갱신
 		lastAttackTime[attacker.y][attacker.x] = turn;
+		memset(attackedTower, 0, sizeof(attackedTower));
 	}
 
 
