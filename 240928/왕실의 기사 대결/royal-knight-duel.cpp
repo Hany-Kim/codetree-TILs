@@ -3,7 +3,7 @@
 using namespace std;
 
 #define L_MAX (40 + 1)
-#define KNIGHT_MAX (100 + 1)
+#define KNIGHT_MAX (30 + 1)
 #define QUERY_MAX (100 + 1)
 
 struct Knight {
@@ -19,6 +19,7 @@ int map[L_MAX][L_MAX]; // 0:빈칸 | 1:함정 | 2:벽
 int knightMap[L_MAX][L_MAX];
 int tmp[L_MAX][L_MAX];
 Knight knights[KNIGHT_MAX];
+Knight knightsTmp[KNIGHT_MAX];
 int pushed[KNIGHT_MAX];
 int damageSum[KNIGHT_MAX];
 CMD cmd[QUERY_MAX];
@@ -45,7 +46,7 @@ void createKnightToMap(int num) {
 	}
 }
 
-void moveKnight(int num, int dir) {
+void moveKnight(int cnum, int num, int dir) {
 	Knight* now = &knights[num];
 	// 다른 기사 있는지 확인
 	for (int y = now->r; y < (now->r + now->h); ++y) {
@@ -57,7 +58,7 @@ void moveKnight(int num, int dir) {
 			if (tmp[ny][nx] == tmp[y][x]) continue;
 
 			if (knightMap[ny][nx] != 0) { // 다른 기사가 있다면
-				moveKnight(tmp[ny][nx], dir);
+				moveKnight(cnum, tmp[ny][nx], dir);
 			}
 		}
 	}
@@ -91,7 +92,8 @@ void moveKnight(int num, int dir) {
 		now->r = now->r + dy[dir];
 		now->c = now->c + dx[dir];
 		createKnightToMap(num);
-		pushed[num] = 1;
+		if (num == cnum) pushed[num] = 2;
+		else pushed[num] = 1;
 	}
 }
 
@@ -124,7 +126,7 @@ void minusHP(int num) {
 void calcDamage(int num) {
 	for (int i = 1; i <= N; ++i) {
 		if (!knights[i].isLive) continue;
-		if (pushed[i] == 0) continue;
+		if (pushed[i] == 0 || pushed[i] == 2) continue;
 		if (i == num) continue;
 
 		minusHP(i);
@@ -141,14 +143,41 @@ void getAns() {
 	cout << ans;
 }
 
+bool isPushed(int num) {
+	bool ret = false;
+
+	for (int i = 1; i <= N; ++i) {
+		if (pushed[i] == 2) ret = true;
+	}
+
+	if (!ret) {
+		return ret;
+	}
+
+	for (int i = 1; i <= N; ++i) {
+		if (pushed[i] == 1) {
+			ret = true;
+			break;
+		}
+	}
+	return ret;
+}
+
 void sol() {
 	for (int query = 0; query < Q; ++query) {
 		if (!knights[cmd[query].i].isLive) continue; // 이미 사라진 기사면 X
 		memcpy(tmp, knightMap, sizeof(tmp));
-		moveKnight(cmd[query].i, cmd[query].d);
-		memcpy(knightMap, tmp, sizeof(tmp));
-		calcDamage(cmd[query].i);
-		memset(pushed, 0, sizeof(pushed));
+		memcpy(knightsTmp, knights, sizeof(knights));
+		moveKnight(cmd[query].i, cmd[query].i, cmd[query].d);
+		if (isPushed(cmd[query].i)) {
+			memcpy(knightMap, tmp, sizeof(tmp));
+			calcDamage(cmd[query].i);
+			memset(pushed, 0, sizeof(pushed));
+		}
+		else {
+			memcpy(knights, knightsTmp, sizeof(knights));
+			memset(pushed, 0, sizeof(pushed));
+		}
 	}
 
 	getAns();
