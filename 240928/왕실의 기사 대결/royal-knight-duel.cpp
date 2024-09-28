@@ -2,7 +2,7 @@
 #include <cstring>
 using namespace std;
 
-#define L_MAX (4 + 1)
+#define L_MAX (40 + 1)
 #define KNIGHT_MAX (100 + 1)
 #define QUERY_MAX (100 + 1)
 
