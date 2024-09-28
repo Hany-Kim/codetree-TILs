@@ -169,6 +169,7 @@ void bombAtt() {
 		if (nx > M) nx = 1;
 
 		if (map[ny][nx] == 0) continue;
+		if (ny == attacker.y && nx == attacker.x) continue;
 
 		map[ny][nx] -= (attacker.att / 2);
 		attackedTower[ny][nx] = 1;
@@ -214,7 +215,6 @@ void sol() {
 	for (int turn = 1; turn <= K; ++turn) {
 		selectAttackerAndTargeter();
 		if (attacker.y == targeter.y && attacker.x == targeter.x) {
-			plusAttackAbillity();
 			break;
 		}
 		plusAttackAbillity();
