@@ -21,7 +21,8 @@ NODE attacker;
 NODE targeter;
 int dy[4] = { 0, 1, 0, -1 };
 int dx[4] = { 1, 0, -1, 0 };
-int path[100];
+int path[1001];
+int used[N_MAX][M_MAX];
 bool findPath;
 int by[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
 int bx[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
@@ -143,10 +144,13 @@ void dfs(int depth, int lv, int sy, int sx) {
 		if (nx > M) nx = 1;
 
 		if (map[ny][nx] == 0) continue;
+		if (used[ny][nx] == 1) continue;
 
+		used[ny][nx] = 1;
 		dfs(depth, lv + 1, ny, nx);
 		if (findPath) return;
 		path[lv] = 0;
+		used[ny][nx] = 0;
 	}
 	if (findPath) return;
 }
@@ -154,7 +158,9 @@ void dfs(int depth, int lv, int sy, int sx) {
 void lazerAtt(int dist) {
 	memset(path, 0, sizeof(path));
 	memset(attackedTower, 0, sizeof(attackedTower));
+	memset(used, 0, sizeof(used));
 	findPath = false;
+	used[attacker.y][attacker.x] = 1;
 	dfs(dist, 0, attacker.y, attacker.x);
 }
 
