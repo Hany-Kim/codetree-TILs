@@ -5,8 +5,8 @@
 #include <queue>
 using namespace std;
 
-#define N_MAX (10 + 1)
-#define M_MAX (10 + 1)
+#define N_MAX (10 + 2)
+#define M_MAX (10 + 2)
 
 struct NODE {
 	int y, x;
@@ -213,6 +213,10 @@ void getAns() {
 void sol() {
 	for (int turn = 1; turn <= K; ++turn) {
 		selectAttackerAndTargeter();
+		if (attacker.y == targeter.y && attacker.x == targeter.x) {
+			plusAttackAbillity();
+			break;
+		}
 		plusAttackAbillity();
 		int shortestDist = bfs();
 		if (shortestDist == 0) {
