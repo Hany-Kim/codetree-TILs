@@ -183,6 +183,7 @@ void checkBrokenTower() {
 void updateTower() {
 	for (int y = 1; y <= N; ++y) {
 		for (int x = 1; x <= M; ++x) {
+			if (map[y][x] == 0) continue;
 			if (attackedTower[y][x] == 1) continue;
 
 			map[y][x] += 1;
@@ -218,6 +219,8 @@ void sol() {
 		updateTower();
 
 		attacker.lat = turn;
+		memset(attackedTower, 0, sizeof(attackedTower));
+		lastAttackTime[attacker.y][attacker.x] = turn;
 	}
 
 
