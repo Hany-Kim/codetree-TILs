@@ -111,6 +111,13 @@ void dfs(int depth, int lv, int sy, int sx) {
 				ny = ny + dy[path[i]];
 				nx = nx + dx[path[i]];
 
+				if (ny < 1) ny = N;
+				if (ny > N) ny = 1;
+				if (nx < 1) nx = M;
+				if (nx > M) nx = 1;
+
+				if (map[ny][nx] == 0) continue;
+
 				map[ny][nx] -= (attacker.att / 2);
 				attackedTower[ny][nx] = 1;
 			}
