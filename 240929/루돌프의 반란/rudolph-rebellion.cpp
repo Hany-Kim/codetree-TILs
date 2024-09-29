@@ -44,7 +44,7 @@ bool santaSort(NODE left, NODE right) {
 
 	if (left.y > right.y) return true;
 	if (left.y < right.y) return false;
-	
+
 	if (left.x > right.x) return true;
 	if (left.x < right.x) return false;
 
@@ -55,11 +55,11 @@ int getTargetSantaNum() {
 	vector<NODE> v;
 	int dist = INT_MAX;
 	int santaNum = 0;
-	
+
 	for (map<int, SANTA>::iterator itr = santas.begin(); itr != santas.end(); itr++) {
 		if (itr->second.isDied) continue;
 		int curDist = getDistBetweenBlocks(rudolph.y, rudolph.x, itr->second.y, itr->second.x);
-		
+
 		NODE now;
 		now.y = itr->second.y;
 		now.x = itr->second.x;
@@ -71,7 +71,7 @@ int getTargetSantaNum() {
 
 	sort(v.begin(), v.end(), santaSort);
 
-	if(v.size() > 0) santaNum = v[0].num;
+	if (v.size() > 0) santaNum = v[0].num;
 
 	return santaNum;
 }
@@ -158,16 +158,16 @@ void conflictOfRudolph(int santaNum, int dir, int turn) {
 void moveRudolph(int turn) {
 	int targetSantaNum = getTargetSantaNum();
 	int getDistRudolphToSanta = getDistBetweenBlocks(
-		rudolph.y, rudolph.x, 
+		rudolph.y, rudolph.x,
 		santas[targetSantaNum].y, santas[targetSantaNum].x);
 
 	// 방향 선택
 	int selectDir = getMoveDirOfRudolph(targetSantaNum, getDistRudolphToSanta);
-	
+
 	if (selectDir != -1) { // 가까워질 곳이 있다면
 		int ny = rudolph.y + ry[selectDir];
 		int nx = rudolph.x + rx[selectDir];
-	
+
 		if (mmap[ny][nx] != 0) conflictOfRudolph(mmap[ny][nx], selectDir, turn);
 		// 루돌프 이동
 		mmap[ny][nx] = -1;
@@ -243,7 +243,7 @@ void pushedSantaBySelf(int num, int dir) {
 		diedSanta(num);
 		return;
 	}
-	if (mmap[ny][nx] > 0) { // 다른 산타
+	if (mmap[ny][nx] > 0 && mmap[ny][nx] != num) { // 다른 산타
 		pushAnotherSantaBySanta(mmap[ny][nx], d);
 	}
 
@@ -332,7 +332,7 @@ void in() {
 	for (int i = 0; i < P; ++i) {
 		int num, y, x;
 		cin >> num >> y >> x;
-		
+
 		santas[num] = createSanta(num, y, x);
 		mmap[y][x] = num;
 
