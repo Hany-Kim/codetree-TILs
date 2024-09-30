@@ -211,7 +211,7 @@ void calc() {
 void sol() {
    makeShapes();
    makeBlock();
-   calc();
+   //calc();
    cout << ans;
 }
 
