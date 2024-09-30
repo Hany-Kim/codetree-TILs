@@ -41,7 +41,7 @@ void rotateAndSaveBlock(vector<BLOCK> block) {
       vector<BLOCK> cur;
       BLOCK zeroPoint = { INT_MAX, INT_MAX };
 
-      for (int i = 0; i < last.size(); ++i) {
+      for (int i = 0; i < last.size(); ++i) { // O(4)
          BLOCK rotatePos;
          rotatePos.y = 4 - 1 - last[i].x;
          rotatePos.x = last[i].y;
@@ -56,7 +56,7 @@ void rotateAndSaveBlock(vector<BLOCK> block) {
          cur[i].x = cur[i].x - zeroPoint.x;
       }
 
-      saveBlock(cur);
+      saveBlock(cur); // O(4)
       last = cur;
    }
 }
@@ -84,13 +84,13 @@ void reverseAndRotateAndSaveBlock(vector<BLOCK> block) {
 
     saveBlock(cur);
     
-    rotateAndSaveBlock(cur);
+    rotateAndSaveBlock(cur); // O(12)
 }
 
 void makeBlock() {
-   for (int i = 0; i < BLOCK_CNT; ++i) {
-      saveBlock(v[i]);
-      rotateAndSaveBlock(v[i]);
+   for (int i = 0; i < BLOCK_CNT; ++i) { // O(5)
+      saveBlock(v[i]); // O(4)
+      rotateAndSaveBlock(v[i]); // O(12)
       reverseAndRotateAndSaveBlock(v[i]);
    }
 }
@@ -144,7 +144,7 @@ void makeBlockArr(int tmp[4][4], string str) {
 
 void bfs(BLOCK start, BLOCK blockPos, int block[4][4]) {
     queue<pair<BLOCK, BLOCK>> q;
-    int used[N_MAX][M_MAX] = { 0, };
+    int used[4][4] = { 0, };
     int cnt = 0;
     int sum = 0;
 
@@ -154,7 +154,7 @@ void bfs(BLOCK start, BLOCK blockPos, int block[4][4]) {
 
     if (s.y < 0 || s.y >= n || s.x < 0 || s.x >= m) return;
     q.push(make_pair(s, blockPos));
-    used[s.y][s.x] = 1;
+    used[blockPos.y][blockPos.x] = 1;
 
     while (!q.empty()) {
         pair<BLOCK, BLOCK> now = q.front(); q.pop();
@@ -167,14 +167,14 @@ void bfs(BLOCK start, BLOCK blockPos, int block[4][4]) {
 
             if (by < 0 || by >= 4 || bx < 0 || bx >= 4)continue;
             if (block[by][bx] == 0) continue;
+            if (used[by][bx] == 1) continue;
 
             int ny = now.first.y + dy[i];
             int nx = now.first.x + dx[i];
 
             if (ny < 0 || ny >= n || nx < 0 || nx >= m) continue;
-            if (used[ny][nx] == 1) continue;
 
-            used[ny][nx] = 1;
+            used[by][bx] = 1;
             pair<BLOCK, BLOCK> next;
             next.first.y = ny;
             next.first.x = nx;
@@ -191,11 +191,11 @@ void bfs(BLOCK start, BLOCK blockPos, int block[4][4]) {
 }
 
 void calc() {
-    for (unordered_set<string>::iterator itr = blockSet.begin(); itr != blockSet.end(); itr++) {
+    for (unordered_set<string>::iterator itr = blockSet.begin(); itr != blockSet.end(); itr++) { // O(19)
         BLOCK findStartPos = getStartPos(*itr);
         
         int tmp[4][4] = { 0, };
-        makeBlockArr(tmp, *itr);
+        makeBlockArr(tmp, *itr); // O(16)
 
         for (int y = 0; y < n; ++y) {
             for (int x = 0; x < m; ++x) {
@@ -210,8 +210,8 @@ void calc() {
 
 void sol() {
    makeShapes();
-   makeBlock();
-   //calc();
+   makeBlock(); // O(60)
+   calc();
    cout << ans;
 }
 
@@ -225,9 +225,6 @@ void in() {
 }
 
 int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(NULL);
-    cout.tie(NULL);
     //freopen("input.txt", "r", stdin);
     in();
     sol();
