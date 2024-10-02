@@ -19,8 +19,13 @@ void dfs(int to, int rew) {
 		if (date[i] == 1) continue;
 		TASK now = arr[i];
 
+		int tmp[N_MAX] = { 0, };
+		memcpy(tmp, date, sizeof(date));
 		for (int j = 0; j < now.day; ++j) {
-			if (i + j > N) return;
+			if (i + j > N) {
+				memcpy(date, tmp, sizeof(date));
+				return;
+			}
 			date[i + j] = 1;
 		}
 
