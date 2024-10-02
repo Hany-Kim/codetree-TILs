@@ -22,13 +22,16 @@ void dfs(int to, int rew) {
 
 		int tmp[N_MAX] = { 0, };
 		memcpy(tmp, date, sizeof(date));
+		int flag = false;
 		for (int j = 0; j < now.day; ++j) {
 			if (i + j > N) {
 				memcpy(date, tmp, sizeof(date));
-				return;
+				flag = true;
+				break;
 			}
 			date[i + j] = 1;
 		}
+		if (flag) continue;
 
 		dfs(i, rew + now.reward);
 		
