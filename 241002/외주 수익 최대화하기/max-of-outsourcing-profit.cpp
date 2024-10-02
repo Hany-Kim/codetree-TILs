@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <cstring>
 using namespace std;
 
 #define N_MAX (15 + 1)
