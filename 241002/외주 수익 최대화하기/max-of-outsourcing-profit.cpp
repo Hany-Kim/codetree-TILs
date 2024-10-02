@@ -20,6 +20,7 @@ void dfs(int to, int rew) {
 		TASK now = arr[i];
 
 		for (int j = 0; j < now.day; ++j) {
+			if (i + j > N) return;
 			date[i + j] = 1;
 		}
 
