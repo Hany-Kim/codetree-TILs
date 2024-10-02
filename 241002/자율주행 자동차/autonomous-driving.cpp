@@ -2,8 +2,8 @@
 #include <algorithm>
 using namespace std;
 
-#define N_MAX 5
-#define M_MAX 5
+#define N_MAX 50
+#define M_MAX 50
 
 struct CAR {
 	int y, x, d;
