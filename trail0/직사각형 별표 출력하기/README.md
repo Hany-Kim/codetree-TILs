@@ -1,0 +1,8 @@
+# [[챌린지]직사각형 별표 출력하기](https://www.codetree.ai/trails/complete/curated-cards/nl-pre-2d-loop-basics-1)
+
+| 항목 | 내용 |
+|---|---|
+| 분류 | Trail |
+| 커리큘럼 | [Trail 0 / 다중 반복문 / 2중 반복문 입문](https://www.codetree.ai/trail-info/codetree-101/) |
+| 난이도 | 쉬움 |
+| 경험치 | 10 XP |
